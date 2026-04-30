@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "serve site",
+      "type": "shell",
+      "command": "pkill -f 'http.server 5173' 2>/dev/null; python3 -m http.server 5173",
+      "options": { "cwd": "${workspaceFolder}/public" },
+      "isBackground": true,
+      "presentation": { "reveal": "silent", "panel": "dedicated" },
+      "problemMatcher": {
+        "owner": "static-site",
+        "pattern": [{ "regexp": "^$" }],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Serving",
+          "endsPattern": "^Serving HTTP"
+        }
+      }
+    }
+  ]
+}
