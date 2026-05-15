@@ -1,6 +1,6 @@
-# Modus WMS — product page plan
+# ARCA WMS — product page plan
 
-A standalone, scroll-driven product page for **Modus WMS**, a customizable warehouse-management system built on Flutter / Serverpod (source: `~/ServerpodProjects/dmr/`).
+A standalone, scroll-driven product page for **ARCA WMS**, a customizable warehouse-management system built on Flutter / Serverpod (source: `~/ServerpodProjects/dmr/`).
 
 The page lives on the same site as `joe-it-solutions.com` but **does not** share its chrome — different theme, different font, different navigation. Standalone product page, link to the main site only via a small footer.
 
@@ -29,9 +29,9 @@ Same constraint as the parent site (no `node_modules`, no build), with one CDN l
 
 | Concern | Tool |
 |---|---|
-| Markup | `public/modus-wms/index.html` |
-| Styling | `public/modus-wms/styles.css` (dark theme, Space Grotesk, scoped — no leakage from `/styles.css`) |
-| Interactivity | `public/modus-wms/main.js` (vanilla JS) |
+| Markup | `public/arca-wms/index.html` |
+| Styling | `public/arca-wms/styles.css` (dark theme, Space Grotesk, scoped — no leakage from `/styles.css`) |
+| Interactivity | `public/arca-wms/main.js` (vanilla JS) |
 | Scroll animations | **GSAP + ScrollTrigger** via jsdelivr CDN (~35 KB gzipped) |
 | Font | **Space Grotesk** via Google Fonts (matches the Flutter app exactly) |
 | Icons | Inline SVG (recreate the bottom-nav icons + package, scanner, truck, etc.) |
@@ -43,7 +43,7 @@ Loaded once at the bottom of `<body>`:
 ```html
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="/modus-wms/main.js" defer></script>
+<script src="/arca-wms/main.js" defer></script>
 ```
 
 ---
@@ -79,7 +79,7 @@ Cards in the recreated UI carry a **2px yellow left accent stripe** — visible 
 
 ```
 public/
-├── modus-wms/
+├── arca-wms/
 │   ├── index.html              # the product page
 │   ├── styles.css              # scoped to this page (.mw-* prefix)
 │   ├── main.js                 # GSAP timelines + i18n toggle
@@ -177,93 +177,93 @@ Straight recreation of the `STANJE` list:
 
 ## 7. Page structure (top → bottom)
 
-The page is one long scroll. Each numbered section corresponds to a GSAP `ScrollTrigger`. Sections marked **(pinned)** stay in the viewport while their internal timeline scrubs.
+The page is one long scroll. Steps inside the Picking module use GSAP `ScrollTrigger`. The modules section uses a sticky tab rail that updates the active tab as you scroll.
 
-### S1. Hero
-- Centered wordmark: **`Modus WMS`** (title case, Space Grotesk 700, 6rem clamp). No logo asset — type only.
-- Tagline: **"WMS that works for you."** (eyebrow above) / Subline: *"Customizable warehouse management. Adapts to your flow — not the other way around."*
-- Two CTAs: `Get a demo` (primary, yellow) + `Watch the flow` (ghost, scrolls to S2).
-- Background: subtle radial gradient in `--accent` at ~6% opacity. A few floating SVG specks (boxes, barcodes) parallax on scroll.
-- Scroll cue at the bottom — bouncing chevron.
+### S1. Hero ✅
+- Centered wordmark `ARCA WMS`, tagline, subline, two CTAs (primary + ghost).
+- Background: radial gradient in `--accent` at ~6% opacity + floating SVG specks.
+- Bouncing scroll-cue chevron at the bottom.
 
-### S2. The pitch — "One product, your workflow"
-- Two columns, large quote-style copy.
-- Left: *"Most WMS make you adapt your warehouse. Modus adapts to it."*
-- Right: three short bullets — Custom fields, Automations, Configurable picking. Each bullet fades in as scroll reaches it.
+### S2. Pitch ✅
+- Headline: *"Most WMS make you adapt your warehouse. ARCA WMS adapts to you."*
+- Three bullets: Custom fields, Automations, Configurable picking — each fades in on scroll.
 
-### S3. **(pinned)** Step 1 — *Order arrives*
+### Modules section ✅
 
-Layout while pinned:
+A `.mw-modules` wrapper that contains a **sticky tab rail** (`position: sticky; top: 60px`) and four module sections below it.
+
+**Tab rail** — four tabs, each with an inline SVG icon + label:
+- Picking (truck icon)
+- Receiving (box-stack icon)
+- Audits (clipboard icon)
+- Automations (lightning bolt icon)
+
+Active tab is highlighted in `--accent` with a 2px bottom border. ScrollTrigger updates the active tab as each module scrolls into view. Tab clicks smooth-scroll to the correct module with a `60 + 50 px` offset (nav + rail height).
+
+**Module header format** — all four modules use the same compact header:
 ```
-LEFT side                    RIGHT side
-─────────────                ──────────────
-ERP / WooCommerce  ────►     [phone: orders screen]
-icon cluster
-+ short copy
+[icon] LABEL NAME      ← .mw-module__label: yellow, 0.8rem, uppercase, 0.08em tracking
+Short lede sentence.   ← .mw-module__lede: --text-muted, 1rem
 ```
+No h2 title — the icon + label from the tab rail is the only heading. Padding: `1.5rem 4rem 1rem`.
 
-Animation (scrub):
-1. Three labeled tiles sit in a column on the left — **ERP**, **WebShop**, **Custom** — each just a typeset label inside a bordered card with a small generic icon (no real-brand logos; the app supports anything that can call a webhook).
-2. As scroll progresses, a small "data packet" SVG (a yellow square with `POST /webhook` micro-text) flies along an SVG path from one of the tiles → into the top of the phone screen. The active source tile cycles ERP → WebShop → Custom over the timeline.
-3. On arrival, a new `.mw-order-row` slides in at the top of the orders list. Existing rows shift down.
-4. Step counter "01 / 04" pinned in the top-left corner.
+#### Module 1: Picking ✅ (fully animated)
 
-Copy: *"Anything that can hit a webhook can feed Modus — your ERP, your webshop, or whatever you build. Orders land the moment they're created."*
+Four scroll steps (`scroll-margin-top: 110px` on the module, `3.5rem 4rem` padding per step):
 
-### S4. **(pinned)** Step 2 — *Scan & pick*
+- **Step 01 — Order arrives**: source tiles (ERP / WebShop / Custom), animated packet arc SVG → new order slides into the phone orders list.
+- **Step 02 — Scan & pick**: camera viewfinder with scan line, barcode box floats in, pick-card shows location + item + progress bar. Device cards row (Camera / Zebra TC57 / RFID / Bluetooth / USB / Manual).
+- **Step 03 — Confirm & ship**: ship screen with address typing animation, yellow OTPREMI button pulse, paper-plane SVG launch.
+- **Step 04 — Stock updates**: stock list with animated quantity decrement on the shipped item.
 
-- Phone swaps to the **scanner screen** (cross-fade, not a route swap).
-- Animation timeline:
-  1. The "Pick guidance" card slides up from the bottom showing **"Zone A › Shelf B-3 — INOX-TRUSS-14mm × 2"**.
-  2. A floating SVG box-with-barcode drifts in from the right and aligns inside the camera viewfinder.
-  3. Red scan line sweeps. On the scan, the guidance card flips to a green "✓ Picked" state and the progress bar advances `0/3 → 1/3 → 2/3 → 3/3` as the user keeps scrolling.
-  4. Once at 3/3, the card collapses into a "Ready to ship" pill.
+A vertical step-dot indicator (`position: fixed; left: 2rem`) shows which step is active inside the Picking module. Hidden on mobile.
 
-- **Side panel — "Scan however you want"**: mini-cards with the device images.
-  - **Phone camera** — generic phone outline / screenshot of the camera tab.
-  - **Zebra Android scanner (TC57)** — `device-tc57.png`.
-  - **Zebra RFID scanner (RFD90)** — `device-rfd90.png`.
-  - **Bluetooth scanners** — `device-bluetooth.png`.
-  - **Manual entry** — keyboard SVG.
-  - These cards are arranged in a row beneath the phone; on scroll they highlight one-by-one with a yellow ring as a piece of copy explains each (GSAP stagger).
+#### Module 2: Receiving ✅ (fully animated)
 
-Copy lead: *"Camera, Zebra hardware, Bluetooth scanners, or manual — same flow, your choice."*
+Three scroll steps (`scroll-margin-top: 110px` on the module, same padding pattern as Picking):
 
-### S5. **(pinned)** Step 3 — *Confirm & ship*
+- **Step 01 — Scan inbound stock**: scanner screen (reuses `.mw-scanner-screen` from Picking) with viewfinder, scan line, barcode box for `INOX-TRUSS-14mm`. Below: a **put-away guidance card** (`.mw-putaway-card`, teal/blue accent `#0D4B5A` to distinguish from Picking’s yellow) showing destination: “Zona C › Polica D-2” + item + quantity.
+- **Step 02 — No barcode? Print one.**: phone showing a print-label UI (item name, SKU, barcode preview, yellow 🖨 PRINT button) + handheld barcode printer SVG illustration side-by-side (`.mw-print-pair`). Wireless signal arcs (`.mw-wireless-signal`) animate from phone → printer. Label (`.mw-printer-label`) slides out of the printer slot. Phone + printer stay side-by-side on mobile too (scaled down).
+- **Step 03 — Scan the shelf**: scanner screen scanning a **QR code** (`.mw-shelf-qr`) with “Polica D-2” text below, sitting on a subtle shelf surface illustration (`.mw-shelf-surface`). After scan: green confirmation card (`.mw-assign-card`, `#1a3a1a` bg, `#00AA44` border) showing “✓ ASSIGNED — INOX-TRUSS-14mm → Zone C › Shelf D-2”.
 
-- Phone shows a generated "Shipment summary" screen we mock: customer name, 3-line address, list of picked items, big yellow `OTPREMI` (Ship) button.
-- Animation: address lines type in (like CLI text), button pulses, on "ship" a paper-plane SVG flies off the screen to the right and fades into a small map blip.
+A separate 3-dot step indicator (`#mw-recv-step-indicator`) shows which step is active inside the Receiving module. Hidden on mobile.
 
-Copy: *"Modus tells your team where it goes. One tap, the order is shipped."*
+Phone bottom nav: active icon is a 3D box/package (distinct from Picking’s truck). Active label: “Prijem”.
 
-### S6. **(pinned)** Step 4 — *Stock updates everywhere*
+#### Module 3: Audits ✅ (fully animated)
 
-- Phone swaps to the **stock screen** (`STANJE`).
-- Animation:
-  1. The just-shipped item's quantity row pulses briefly (decrement) while the previous-step's plane lands.
-  2. Numbers on multiple rows tick down/up using a quick `requestAnimationFrame` counter.
+Two scroll steps (`scroll-margin-top: 110px` on the module, same padding pattern as Picking/Receiving):
 
-Copy: *"Stock recalculates the moment goods move. Across warehouses, zones, and shelves."*
+- **Step 01 — Walk the warehouse, scan what's there**: scanner screen (reuses `.mw-scanner-screen` from Picking/Receiving) with viewfinder and animated scan line. Inside the viewfinder, three smaller `.mw-barcode-mini` boxes are stacked vertically (one per audited SKU: `INOX-TRUSS-14mm`, `BOLT-M8-50mm`, `WASHER-12mm`). On enter, the three barcodes drift in stacked with a stagger; then a green check (`.mw-barcode-mini__check`) sweeps top → middle → bottom in sequence, as if the auditor is ticking each item off the list.
+- **Step 02 — See the differences in one glance**: a new `.mw-audit-summary` screen inside the same phone frame. Header eyebrow `INVENTURA — REZULTATI` with a small location row beneath it (`.mw-audit-summary__warehouse`, purple pin icon + "Warehouse Sisak" / "Skladište Sisak") so the audit is anchored to a specific site. Below it, a circular SVG progress ring (`.mw-audit-progress`, purple `#A78BFA` stroke) animates from 0% → **84%** via `stroke-dashoffset`, with a synced numeric counter inside the ring. Below the ring, large `1240 / 1476` counts plus a `counted / expected` sublabel. Then a list of five `.mw-audit-row` cards (purple left stripe) showing variances:
+  - `INOX-TRUSS-14mm` — `2 / 3` (counted/expected, count rendered in red `#FFB4AB`)
+  - `BOLT-M8-50mm` — `4 / 3` with a yellow **`+1 EXTRA`** badge that pops in via `back.out(2.4)`
+  - `WASHER-12mm` — `5 / 6` (count in red)
+  - `HEX-NUT-M10` — `18 / 20` (count in red)
+  - `PLATE-ZINC-A4` — `7 / 5` with a yellow **`+2 EXTRA`** badge (staggered after the first badge)
 
-### S7. "And more" — feature grid (no scroll choreography, just a clean grid)
+A separate 2-dot step indicator (`#mw-audit-step-indicator`) shows which step is active inside the Audits module. Hidden on mobile.
 
-Six tiles, each a small card with icon + name + one-line description:
+Phone bottom nav: active icon is the clipboard icon (matches the tab-rail audits icon, distinct from Picking's truck and Receiving's package). Active label: "Inventura".
 
-1. **Audits** — *Plan, count, reconcile. Bring the warehouse back to truth.*
-2. **Receiving** — *Inbound goods, supplier-aware, one tap to verify.*
-3. **Transfers** — *Move stock between warehouses with full traceability.*
-4. **Automations** — *Trigger flows on events. Print labels, notify, route.*
-5. **Custom fields** — *Add fields per item, location, or order. No code.*
-6. **Multi-warehouse** — *Sisak, Zagreb, anywhere. One source of truth.*
+#### Module 4: Automations ✅ (fully animated)
 
-These map to `dmr/docs/features/` so copy can be tightened against the real feature docs.
+Three scroll steps (same structure as Picking/Receiving/Audits):
 
-### S8. Why "customizable" actually means something
-- Three side-by-side columns: *Custom fields*, *Automations*, *Configurable picking*. Each shows a tiny code-ish snippet or screenshot fragment proving the customization is real, not a buzzword.
+- **Step 01 — Configure your warehouse**: desktop screen showing a 3-column Finder-style browser (Warehouse › Zone › Shelf). Columns cascade in with stagger; a detail panel slides up showing custom-field chips.
+- **Step 02 — Configure your catalog**: desktop screen with four iOS-style toggles (decimals, restock, lot-tracking, serial-tracking). Two toggles flip on as scroll triggers; a new `Datum isteka (Datum)` custom-field row slides into the list.
+- **Step 03 — Automations editor**: desktop split-pane — left: trigger summary card (`Stock.Adjusted`, status active); right: code editor that reveals lines in stagger (typewriter feel), ending with a `✓ 200 OK — synced to ERP` toast.
 
-### S9. CTA
-- Big centered: **"Make Modus yours."** + button → `mailto:contact@joe-it-solutions.com?subject=Modus WMS demo`.
-- Small footer: copyright, language toggle, and a discreet link back to `joe-it-solutions.com`.
+All three steps use `.mw-desktop` (new component: window chrome + 14px radius bezel). Module accent: `#00E5A0` (mint/green). Lot/serial tracking toggles are directionally accurate (same precedent as the Picking module's invented pick-guidance UI — decision #5).
+
+### Features grid ✅
+Six tiles: Audits, Receiving, Transfers, Automations, Custom fields, Multi-warehouse.
+
+### CTA ✅
+*"Make ARCA WMS yours."* + `mailto:` button.
+
+### Footer ✅
+Copyright, "By JOE IT Solutions" link, EN/HR toggle.
 
 ---
 
@@ -296,10 +296,10 @@ These map to `dmr/docs/features/` so copy can be tightened against the real feat
 ## 10. Page header (minimal, not the JOE IT one)
 
 ```
-[ MODUS WMS ]                      [ Features ]  [ Demo ]   [ EN | HR ]
+[ ARCA WMS ]                      [ Features ]  [ Demo ]   [ EN | HR ]
 ```
 
-- Left: just the wordmark, links to `/modus-wms/` (top of page).
+- Left: logo mark + two-tone wordmark, links to `/arca-wms/` (top of page).
 - Right: two anchor links + language toggle.
 - Becomes a translucent dark bar with `backdrop-filter: blur(14px)` after 100px of scroll.
 - **No** `joe-it-solutions.com` logo. The discreet "by JOE IT Solutions" link sits in the page footer only.
@@ -310,9 +310,9 @@ These map to `dmr/docs/features/` so copy can be tightened against the real feat
 
 | Source (`resources/wms/`) | Destination | Action |
 |---|---|---|
-| `device_tc57.png` | `public/modus-wms/img/device-tc57.png` | copy, rename, optimize |
-| `device_rfd90.png` | `public/modus-wms/img/device-rfd90.png` | copy, rename, optimize |
-| `device_bluetooth.png` | `public/modus-wms/img/device-bluetooth.png` | copy, rename, optimize |
+| `device_tc57.png` | `public/arca-wms/img/device-tc57.png` | copy, rename, optimize |
+| `device_rfd90.png` | `public/arca-wms/img/device-rfd90.png` | copy, rename, optimize |
+| `device_bluetooth.png` | `public/arca-wms/img/device-bluetooth.png` | copy, rename, optimize |
 | `orders.png` / `stock.png` / `scanner.png` / `audits.png` | (not deployed) | reference only — recreated in HTML |
 
 The four screenshots stay in `resources/` as the visual source of truth but **don't ship**. The page renders the screens itself.
@@ -321,8 +321,8 @@ The four screenshots stay in `resources/` as the visual source of truth but **do
 
 ## 12. Routing & entry points
 
-- The page is at `/modus-wms/` (trailing slash → Firebase serves `public/modus-wms/index.html`).
-- **Entry from the main site**: `joe-it-solutions.com` → **Projects** section gets a new "Modus WMS" tile that links to `/modus-wms/`. The parent site's `index.html` and `styles.css` need a small edit to add this tile alongside the existing project cards. Image for the tile = a flat render of the recreated orders screen (same asset we'll use as the OG card, see §14.9).
+- The page is at `/arca-wms/` (trailing slash → Firebase serves `public/arca-wms/index.html`).
+- **Entry from the main site**: `joe-it-solutions.com` → **Projects** section gets a new "ARCA WMS" tile that links to `/arca-wms/`. The parent site's `index.html` and `styles.css` need a small edit to add this tile alongside the existing project cards. Image for the tile = a flat render of the recreated orders screen (same asset we'll use as the OG card, see §14.9).
 
 ---
 
@@ -344,15 +344,15 @@ The four screenshots stay in `resources/` as the visual source of truth but **do
 
 ## 14. Decisions (locked in)
 
-1. **CTA**: `mailto:contact@joe-it-solutions.com?subject=Modus WMS demo`. No form, no Cal.com.
-2. **Wordmark**: text-only "**Modus WMS**" set in Space Grotesk 700. No logo asset.
+1. **CTA**: `mailto:contact@joe-it-solutions.com?subject=ARCA WMS demo`. No form, no Cal.com.
+2. **Wordmark**: SVG logo mark (134×78 viewBox, `arca_logo.svg`) on the left + two-tone text on the right — "ARCA" Space Grotesk 700 in `--accent` (#FFB300), "WMS" 500 in `--text-muted`. External file at `public/arca-wms/img/logo.svg`.
 3. **Pricing**: not on the page. Behind contact only.
 4. **Integration source labels (S3)**: generic — **ERP**, **WebShop**, **Custom**. The app exposes webhooks; anything that can call a webhook can plug in. Avoid named brand logos until specific integrations actually ship.
 5. **Pick guidance UI**: invented for the marketing animation, OK by user. Not present in the app yet — directionally accurate.
 6. **Language default**: auto-detect via `navigator.language`. If `hr-*` → Croatian, else fall back to **EN**. User-toggled choice persists in `localStorage` and overrides the auto-detect on subsequent visits.
-7. **Discoverability**: link in from the main site. The existing **Projects** section on `/index.html` gets a new tile (or row) for **Modus WMS** that links to `/modus-wms/`. This is a small follow-up on the parent site — track it as part of this work.
+7. **Discoverability**: link in from the main site. The existing **Projects** section on `/index.html` gets a new tile (or row) for **ARCA WMS** that links to `/arca-wms/`. This is a small follow-up on the parent site — track it as part of this work.
 8. **Footer link** ("by JOE IT Solutions"): links to `https://joe-it-solutions.com/` (homepage). Single link, no contact duplication.
-9. **OG/social card**: use a flat render of the recreated orders screen with the wordmark overlaid. Generated as a static PNG once the orders mockup is final, saved to `public/modus-wms/img/og.png`.
+9. **OG/social card**: use a flat render of the recreated orders screen with the wordmark overlaid. Generated as a static PNG once the orders mockup is final, saved to `public/arca-wms/img/og.png`.
 
 ---
 
@@ -367,4 +367,17 @@ The four screenshots stay in `resources/` as the visual source of truth but **do
 
 ## 16. Status
 
-**Plan only.** No files in `public/modus-wms/` yet. Implementation kicks off in the next session, after the open questions above are answered.
+**Live / in progress.**
+
+| Area | State |
+|---|---|
+| Hero, Pitch, CTA, Footer | ✅ Done |
+| Modules sticky tab rail | ✅ Done |
+| Module 1 — Picking (4 scroll steps + GSAP animations) | ✅ Done |
+| Module 2 — Receiving (3 scroll steps + GSAP animations) | ✅ Done |
+| Module 3 — Audits (2 scroll steps + GSAP animations) | ✅ Done |
+| Module 4 — Automations (3 scroll steps + GSAP animations) | ✅ Done |
+| Features grid | ✅ Done |
+| i18n (EN + HR) | ✅ Done |
+| Mobile responsive | ✅ Done (tabs scroll horizontally, step dots hidden, single-col steps) |
+| Firebase deploy | ✅ Deployed (`firebase.json` already points to `public/`) |

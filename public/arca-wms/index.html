@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARCA WMS — Warehouse Management System</title>
+  <meta name="description" content="Customizable warehouse management that adapts to your workflow. Orders, scanning, shipping, stock. All in one place." />
+  <link rel="stylesheet" href="/arca-wms/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="mw-page">
+
+  <!-- ── Nav ── -->
+  <nav class="mw-nav" id="mw-nav">
+    <a href="#" class="mw-nav__logo" aria-label="ARCA WMS">
+      <img src="/arca-wms/img/logo.svg" alt="" class="mw-nav__logo-mark" />
+      <span class="mw-nav__logo-text"><span class="mw-nav__logo-accent">ARCA</span> WMS</span>
+    </a>
+    <ul class="mw-nav__links">
+      <li>
+        <div class="mw-lang">
+          <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="btn-hr" onclick="setLang('hr')">HR</button>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ── Step dots indicator (Picking) ── -->
+  <div class="mw-step-indicator" id="mw-step-indicator">
+    <div class="mw-step-dot active" onclick="scrollToStep(0)"></div>
+    <div class="mw-step-dot" onclick="scrollToStep(1)"></div>
+    <div class="mw-step-dot" onclick="scrollToStep(2)"></div>
+    <div class="mw-step-dot" onclick="scrollToStep(3)"></div>
+  </div>
+
+  <!-- ── Step dots indicator (Receiving) ── -->
+  <div class="mw-recv-step-indicator mw-step-indicator" id="mw-recv-step-indicator">
+    <div class="mw-step-dot active" onclick="scrollToRecvStep(0)"></div>
+    <div class="mw-step-dot" onclick="scrollToRecvStep(1)"></div>
+    <div class="mw-step-dot" onclick="scrollToRecvStep(2)"></div>
+  </div>
+
+  <!-- ── Step dots indicator (Audits) ── -->
+  <div class="mw-audit-step-indicator mw-step-indicator" id="mw-audit-step-indicator">
+    <div class="mw-step-dot active" onclick="scrollToAuditStep(0)"></div>
+    <div class="mw-step-dot" onclick="scrollToAuditStep(1)"></div>
+  </div>
+
+  <!-- ── Step dots indicator (Automations) ── -->
+  <div class="mw-auto-step-indicator mw-step-indicator" id="mw-auto-step-indicator">
+    <div class="mw-step-dot active" onclick="scrollToAutoStep(0)"></div>
+    <div class="mw-step-dot" onclick="scrollToAutoStep(1)"></div>
+    <div class="mw-step-dot" onclick="scrollToAutoStep(2)"></div>
+  </div>
+
+  <!-- ── S1: Hero ── -->
+  <section class="mw-hero" id="mw-hero">
+    <div class="mw-hero__bg"></div>
+    <div class="mw-hero__specks" aria-hidden="true">
+      <!-- Floating SVG box -->
+      <svg class="mw-speck" style="top:15%;left:8%;width:36px;" viewBox="0 0 36 36" fill="none">
+        <rect x="1" y="1" width="34" height="34" rx="4" stroke="#FFB300" stroke-width="1.5"/>
+        <line x1="1" y1="11" x2="35" y2="11" stroke="#FFB300" stroke-width="1"/>
+        <line x1="18" y1="11" x2="18" y2="35" stroke="#FFB300" stroke-width="1"/>
+      </svg>
+      <svg class="mw-speck" style="top:65%;left:6%;width:24px;" viewBox="0 0 24 24" fill="none">
+        <rect x="1" y="4" width="4" height="16" rx="1" fill="#FFB300"/>
+        <rect x="7" y="4" width="2" height="16" rx="0.5" fill="#FFB300"/>
+        <rect x="11" y="4" width="5" height="16" rx="0.5" fill="#FFB300"/>
+        <rect x="18" y="4" width="2" height="16" rx="0.5" fill="#FFB300"/>
+        <rect x="22" y="4" width="2" height="16" rx="0.5" fill="#FFB300"/>
+      </svg>
+      <svg class="mw-speck" style="top:25%;right:7%;width:42px;" viewBox="0 0 42 42" fill="none">
+        <rect x="1" y="1" width="40" height="40" rx="5" stroke="#FFB300" stroke-width="1.5"/>
+        <path d="M21 8v13M8 21h13M21 21l9 9" stroke="#FFB300" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <svg class="mw-speck" style="top:72%;right:10%;width:28px;" viewBox="0 0 28 28" fill="none">
+        <rect x="1" y="1" width="26" height="26" rx="3" stroke="#FFB300" stroke-width="1.5"/>
+        <rect x="4" y="4" width="8" height="8" rx="1" fill="#FFB300" opacity="0.4"/>
+        <rect x="16" y="4" width="8" height="8" rx="1" fill="#FFB300" opacity="0.4"/>
+        <rect x="4" y="16" width="8" height="8" rx="1" fill="#FFB300" opacity="0.4"/>
+        <rect x="16" y="16" width="8" height="8" rx="1" fill="#FFB300" opacity="0.4"/>
+      </svg>
+    </div>
+    <p class="mw-hero__eyebrow" data-i18n="hero.eyebrow">Warehouse Management System</p>
+    <h1 data-i18n="hero.title">WMS that works
+for you.</h1>
+    <p class="mw-hero__sub" data-i18n="hero.sub">Customizable warehouse management that adapts to your workflow, not the other way around.</p>
+    <div class="mw-hero__ctas">
+      <a href="mailto:contact@joe-it-solutions.com?subject=ARCA WMS demo" class="mw-btn-primary" data-i18n="hero.cta.demo">Contact us and get a demo</a>
+      <a href="#mw-story" class="mw-btn-ghost" data-i18n="hero.cta.watch">See how it works</a>
+    </div>
+    <div class="mw-scroll-cue" aria-hidden="true">
+      <svg width="20" height="28" viewBox="0 0 20 28" fill="none">
+        <rect x="1" y="1" width="18" height="22" rx="9" stroke="#9E8E78" stroke-width="1.5"/>
+        <rect x="9" y="5" width="2" height="6" rx="1" fill="#9E8E78"/>
+        <polyline points="5,24 10,28 15,24" stroke="#9E8E78" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── S2: Pitch ── -->
+  <section class="mw-pitch" id="mw-pitch">
+    <h2 class="mw-pitch__headline" data-i18n-html="pitch.headline">Most WMS make you adapt your warehouse. <em>ARCA adapts to it.</em></h2>
+    <div class="mw-pitch__bullets">
+      <div class="mw-pitch-bullet" id="pb1">
+        <div class="mw-pitch-bullet__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <h3 data-i18n="pitch.b1.title">Custom fields</h3>
+        <p data-i18n="pitch.b1.body">Add fields to any item, location, or order. No code.</p>
+      </div>
+      <div class="mw-pitch-bullet" id="pb2">
+        <div class="mw-pitch-bullet__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <h3 data-i18n="pitch.b2.title">Automations</h3>
+        <p data-i18n="pitch.b2.body">Trigger flows on events: print labels, notify, route.</p>
+      </div>
+      <div class="mw-pitch-bullet" id="pb3">
+        <div class="mw-pitch-bullet__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+        </div>
+        <h3 data-i18n="pitch.b3.title">Configurable picking</h3>
+        <p data-i18n="pitch.b3.body">Define how your team picks: by zone, by SKU, by priority.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Modules ── -->
+  <div class="mw-modules" id="mw-modules">
+
+    <!-- Sticky tab rail -->
+    <div class="mw-modules-tabs" id="mw-modules-tabs">
+      <div class="mw-modules-tabs__inner">
+        <a class="mw-modules-tab active" data-module="picking" href="#mod-picking">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="9" height="8" rx="1"/><path d="M10 5h3l2 2v4h-5V5z"/><circle cx="3.5" cy="12.5" r="1.5"/><circle cx="12.5" cy="12.5" r="1.5"/></svg>
+          <span data-i18n="mod.picking">Picking</span>
+        </a>
+        <a class="mw-modules-tab" data-module="receiving" href="#mod-receiving">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 11l6 4 6-4M2 7l6 4 6-4M8 1L2 5l6 4 6-4-6-4z"/></svg>
+          <span data-i18n="mod.receiving">Receiving</span>
+        </a>
+        <a class="mw-modules-tab" data-module="audits" href="#mod-audits">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="1" width="10" height="14" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/><path d="M5 5l-.5-.5"/></svg>
+          <span data-i18n="mod.audits">Audits</span>
+        </a>
+        <a class="mw-modules-tab" data-module="automations" href="#mod-automations">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 1 5 9 8 9 7 15 11 7 8 7 9 1"/></svg>
+          <span data-i18n="mod.automations">Configurations</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ─── Module 1: Picking ─── -->
+    <section class="mw-module" id="mod-picking" data-module="picking">
+      <div class="mw-module__header">
+        <div class="mw-module__label">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="9" height="8" rx="1"/><path d="M10 5h3l2 2v4h-5V5z"/><circle cx="3.5" cy="12.5" r="1.5"/><circle cx="12.5" cy="12.5" r="1.5"/></svg>
+          <span data-i18n="mod.picking">Picking</span>
+        </div>
+        <p class="mw-module__lede" data-i18n="mod.picking.lede">An order arrives, gets picked, shipped, and stock updates. All guided by ARCA WMS.</p>
+      </div>
+
+      <div class="mw-story" id="mw-story">
+
+        <!-- S3: Order arrives -->
+    <section class="mw-step" id="mw-step-1" data-step="0">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="s3.step">Step 01</p>
+          <h2 class="mw-step__title" data-i18n="s3.title">Order arrives.</h2>
+          <p class="mw-step__body" data-i18n="s3.body">ARCA WMS integrates with your existing systems: ERP, webshop, or any custom source. Orders flow in automatically, no matter how your business is set up.</p>
+
+          <div class="mw-sources" style="margin-top:2rem;">
+            <div class="mw-source-tile" id="src-erp">
+              <div class="mw-source-tile__dot"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <span data-i18n="s3.src.erp">ERP</span>
+            </div>
+            <div class="mw-source-tile" id="src-webshop">
+              <div class="mw-source-tile__dot"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              <span data-i18n="s3.src.webshop">WebShop</span>
+            </div>
+            <div class="mw-source-tile" id="src-custom">
+              <div class="mw-source-tile__dot"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span data-i18n="s3.src.custom">Custom</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mw-step__visual">
+          <!-- SVG connection arc -->
+          <div class="mw-phone-wrap" style="position:relative;">
+            <svg id="mw-arc-svg" style="position:absolute;left:-60px;top:0;width:70px;height:100%;pointer-events:none;overflow:visible;z-index:2;" viewBox="0 0 70 400" preserveAspectRatio="none">
+              <path id="mw-arc-path" d="M 0 200 Q 35 200 70 200" stroke="var(--accent)" stroke-width="1.5" fill="none" stroke-dasharray="4 4" opacity="0.4"/>
+              <!-- Packet -->
+              <g id="mw-packet" opacity="0">
+                <rect x="-12" y="-10" width="24" height="20" rx="4" fill="var(--accent)"/>
+                <text x="0" y="4" text-anchor="middle" font-size="5" font-family="Space Grotesk,monospace" fill="#432C00" font-weight="700">POST</text>
+              </g>
+            </svg>
+
+            <!-- Phone: Orders screen -->
+            <div class="mw-phone" id="phone-orders">
+              <div class="mw-phone__island"></div>
+              <div class="mw-phone__screen">
+                <!-- Status bar -->
+                <div class="mw-phone__status">
+                  <span>9:41</span>
+                  <div class="mw-phone__status-right">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5M11 18.5a3 3 0 011-1 3 3 0 011 1M12 21.5h.01"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                  </div>
+                </div>
+                <!-- App content -->
+                <div class="mw-app-content">
+                  <div class="mw-orders-screen">
+                    <div class="mw-orders-header">NARUDŽBE</div>
+                    <div class="mw-seg-control">
+                      <div class="mw-seg-btn">✓ Dolazno</div>
+                      <div class="mw-seg-btn active">🚚 Izlazno</div>
+                    </div>
+                    <div class="mw-orders-list" id="orders-list">
+                      <!-- New order — animated in -->
+                      <div class="mw-order-row new-order" id="new-order-row" style="opacity:0;transform:translateY(-100%);">
+                        <div class="mw-order-row__id">WEB-20260428-001</div>
+                        <div class="mw-order-row__meta">
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Status</span><span class="mw-order-meta-val">Novo</span></div>
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Stvoreno</span><span class="mw-order-meta-val">28.04 09:41</span></div>
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Odredište</span><span class="mw-order-meta-val">Sisak</span></div>
+                        </div>
+                      </div>
+                      <div class="mw-order-row">
+                        <div class="mw-order-row__id">TTT</div>
+                        <div class="mw-order-row__meta">
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Status</span><span class="mw-order-meta-val">Primljeno</span></div>
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Stvoreno</span><span class="mw-order-meta-val">24.04 15:06</span></div>
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Odredište</span><span class="mw-order-meta-val">Sisak</span></div>
+                        </div>
+                      </div>
+                      <div class="mw-order-row">
+                        <div class="mw-order-row__id">REC-1777040258448</div>
+                        <div class="mw-order-row__meta">
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Status</span><span class="mw-order-meta-val">Nacrt</span></div>
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Stvoreno</span><span class="mw-order-meta-val">24.04 14:17</span></div>
+                          <div class="mw-order-meta-col"><span class="mw-order-meta-label">Odredište</span><span class="mw-order-meta-val">Zagreb</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mw-orders-fab">+ Nova</div>
+                  </div>
+                </div>
+                <!-- Bottom nav -->
+                <div class="mw-phone__nav">
+                  <div class="mw-phone__nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg>
+                  </div>
+                  <div class="mw-phone__nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                  </div>
+                  <div class="mw-phone__nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span>Narudžbe</span>
+                  </div>
+                  <div class="mw-phone__nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  </div>
+                  <div class="mw-phone__nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                </div>
+                <div class="mw-phone__home"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S4: Scan & pick -->
+    <section class="mw-step" id="mw-step-2" data-step="1">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="s4.step">Step 02</p>
+          <h2 class="mw-step__title" data-i18n="s4.title">Scan &amp; pick.</h2>
+          <p class="mw-step__body" data-i18n="s4.body">Camera, Zebra hardware, RFID, Bluetooth scanners, USB scanners, or manual entry. Same guided flow, your choice of device.</p>
+
+          <!-- Device cards -->
+          <div class="mw-devices" style="margin-top:2rem;">
+            <div class="mw-device-card" data-device="camera">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <rect x="2" y="7" width="28" height="22" rx="3"/><circle cx="16" cy="18" r="5"/><path d="M11 7l2-4h6l2 4"/>
+              </svg>
+              <span data-i18n="s4.d.camera">Phone camera</span>
+            </div>
+            <div class="mw-device-card" data-device="tc57">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:32px;height:32px;">
+                <path d="M5.145 13.109H4.6v-1.545l.545.546v.999zm-2.183-.095.546.546v.771L2.417 13.24v-3.092L1.003 8.739a2.73 2.73 0 0 1 .465-.306l1.494 1.489V8.126a.899.899 0 0 1 .084 1.793h.7l.002.003.543.543H2.962v2.549zm.546-2.545-.003 2.636h.546l.002-2.088-.545-.548zm1.873 1.095-.546-.546h-.781l.545.546h.782zm-3.51 1.162v-2.348L.616 9.125c-.118.143-.221.299-.308.464l1.016 1.016v.771L.093 10.144c-.059.217-.09.445-.093.68l1.87 1.902zM.01 11.604v.772l3.498 3.499v-.772L.01 11.605zm6.227.815h-.546v.69h-.546a.899.899 0 1 0 1.798 0l-.706-.69zm2.977.701 1.658-3.186h-2.55l-.41.78h1.469l-1.659 3.185h2.551l.41-.779H9.213zm2.95-2.407h1.307v-.779h-2.27V13.9h2.27v-.778h-1.308v-.82h1.308v-.78h-1.308v-.808zm1.78-.779V13.9h1.622c.404 0 .642-.053.838-.184.256-.173.404-.5.404-.868 0-.291-.089-.523-.267-.69-.125-.119-.232-.172-.476-.226.214-.059.303-.112.416-.231a.937.937 0 0 0 .268-.69c0-.38-.167-.72-.44-.886-.214-.136-.505-.19-1.01-.19h-1.356zm.962.72h.226c.452 0 .636.136.636.457 0 .327-.184.464-.624.464h-.238v-.921zm0 1.622h.22c.291 0 .387.012.493.072.143.077.214.214.214.404 0 .32-.172.458-.576.458h-.35v-.934zm3.239.09.868 1.533h1.153l-.874-1.456c.511-.202.767-.6.767-1.207 0-.434-.155-.79-.428-1.005-.262-.202-.642-.297-1.165-.297h-1.284V13.9h.963v-1.533zm0-.541v-1.1h.368c.34 0 .571.226.571.553 0 .344-.238.547-.63.547h-.309zm4.566 1.294h-1.285l-.245.78h-1.015l1.308-3.964h1.224L24 13.899h-1.045l-.244-.78zm-.244-.78-.398-1.269-.398 1.27h.796z"/>
+              </svg>
+              <span data-i18n="s4.d.tc57">Zebra scanner</span>
+            </div>
+            <div class="mw-device-card" data-device="rfd90">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="16" cy="16" r="2.5"/>
+                <path d="M11 11a7 7 0 000 10"/>
+                <path d="M8 8a12 12 0 000 16"/>
+                <path d="M21 11a7 7 0 010 10"/>
+                <path d="M24 8a12 12 0 010 16"/>
+              </svg>
+              <span data-i18n="s4.d.rfd90">RFID scanner</span>
+            </div>
+            <div class="mw-device-card" data-device="bt">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="8,23 24,9 16,3 16,29 24,23 8,9"/>
+              </svg>
+              <span data-i18n="s4.d.bt">Bluetooth scanner</span>
+            </div>
+            <div class="mw-device-card" data-device="usb">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="10" width="14" height="16" rx="2"/>
+                <path d="M20 16h6l2-4"/>
+                <path d="M20 20h6l2 4"/>
+                <line x1="28" y1="12" x2="28" y2="24"/>
+                <line x1="10" y1="15" x2="16" y2="15"/>
+                <line x1="10" y1="18" x2="14" y2="18"/>
+                <line x1="10" y1="21" x2="16" y2="21"/>
+              </svg>
+              <span data-i18n="s4.d.usb">USB scanner</span>
+            </div>
+            <div class="mw-device-card" data-device="manual">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <rect x="4" y="4" width="24" height="24" rx="3"/>
+                <line x1="9" y1="11" x2="23" y2="11"/><line x1="9" y1="16" x2="19" y2="16"/><line x1="9" y1="21" x2="15" y2="21"/>
+              </svg>
+              <span data-i18n="s4.d.manual">Manual entry</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mw-step__visual">
+          <!-- Phone: Scanner screen -->
+          <div class="mw-phone" id="phone-scanner">
+            <div class="mw-phone__island"></div>
+            <div class="mw-phone__screen">
+              <div class="mw-phone__status">
+                <span>9:41</span>
+                <div class="mw-phone__status-right">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                </div>
+              </div>
+              <div class="mw-app-content">
+                <div class="mw-scanner-screen">
+                  <div class="mw-scanner-topbar">
+                    <span class="back-btn">←</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                    <span class="done-btn">GOTOVO</span>
+                  </div>
+                  <div class="mw-scanner-tabs">
+                    <div class="mw-scanner-tab active">✓ Kamera</div>
+                    <div class="mw-scanner-tab">⊞ Hardver</div>
+                    <div class="mw-scanner-tab">✎ Ručno</div>
+                  </div>
+                  <!-- Viewfinder -->
+                  <div class="mw-viewfinder">
+                    <div class="mw-vf-grid"></div>
+                    <div class="mw-vf-corner tl"></div>
+                    <div class="mw-vf-corner tr"></div>
+                    <div class="mw-vf-corner bl"></div>
+                    <div class="mw-vf-corner br"></div>
+                    <div class="mw-scan-line"></div>
+                    <!-- Barcode box that floats in -->
+                    <div class="mw-barcode-box" id="barcode-box">
+                      <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="60" height="30" fill="white"/>
+                        <rect x="2" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="5" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="7" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="11" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="13" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="16" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="18" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="22" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="25" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="27" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="30" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="34" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="36" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="39" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="41" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="45" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="48" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="50" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="53" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="57" y="3" width="1" height="24" fill="#111"/>
+                        <text x="30" y="31" text-anchor="middle" font-size="4" fill="#333" font-family="monospace">INOX-TRUSS-14mm</text>
+                      </svg>
+                    </div>
+                  </div>
+                  <!-- Pick guidance card -->
+                  <div class="mw-pick-card" id="pick-card">
+                    <div class="mw-pick-card__next" data-i18n="s4.pick.next">NEXT</div>
+                    <div class="mw-pick-card__location"><span data-i18n="s4.pick.goto">Go to</span> Zona A › Polica B-3</div>
+                    <div class="mw-pick-card__item">
+                      <span><span data-i18n="s4.pick.pickup">Pick up</span> INOX-TRUSS-14mm</span>
+                      <span>× 2</span>
+                    </div>
+                    <div class="mw-pick-progress-track">
+                      <div class="mw-pick-progress-fill" id="pick-progress"></div>
+                    </div>
+                    <div class="mw-pick-progress-label" id="pick-label">0 / 3</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom nav -->
+              <div class="mw-phone__nav">
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="mw-phone__nav-item active">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                  <span>Narudžbe</span>
+                </div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="mw-phone__home"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S5: Confirm & ship -->
+    <section class="mw-step" id="mw-step-3" data-step="2">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="s5.step">Step 03</p>
+          <h2 class="mw-step__title" data-i18n="s5.title">Confirm &amp; ship.</h2>
+          <p class="mw-step__body" data-i18n="s5.body">ARCA shows the destination address, picked items, and a single confirm tap. The order is done.</p>
+        </div>
+
+        <div class="mw-step__visual" style="position:relative;">
+          <!-- Paper plane -->
+          <svg class="mw-plane" id="mw-plane" width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <path d="M37 3L3 16l13 6 3 14 8-10 10-23z" fill="var(--accent)" opacity="0.9"/>
+            <path d="M16 22l8-6" stroke="var(--accent-ink)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+
+          <!-- Phone: Ship screen -->
+          <div class="mw-phone" id="phone-ship">
+            <div class="mw-phone__island"></div>
+            <div class="mw-phone__screen">
+              <div class="mw-phone__status">
+                <span>9:41</span>
+                <div class="mw-phone__status-right">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                </div>
+              </div>
+              <div class="mw-app-content">
+                <div class="mw-ship-screen">
+                  <div class="mw-ship-header">OTPREMA</div>
+                  <div class="mw-ship-addr-block">
+                    <div class="mw-ship-addr-label">ODREDIŠTE</div>
+                    <div class="mw-ship-addr-line" id="addr-line-1"></div>
+                    <div class="mw-ship-addr-line" id="addr-line-2"></div>
+                    <div class="mw-ship-addr-line" id="addr-line-3"></div>
+                  </div>
+                  <div class="mw-ship-items">
+                    <div class="mw-ship-item-label">ARTIKLI</div>
+                    <div class="mw-ship-item-row"><span>INOX-TRUSS-14mm</span><span>×2</span></div>
+                    <div class="mw-ship-item-row"><span>BOLT-M8-ZINC</span><span>×10</span></div>
+                    <div class="mw-ship-item-row"><span>PLATE-200x200</span><span>×4</span></div>
+                  </div>
+                  <button class="mw-ship-btn" id="ship-btn">🚚 OTPREMI</button>
+                </div>
+              </div>
+              <div class="mw-phone__nav">
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="mw-phone__nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Narudžbe</span></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="mw-phone__home"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- S6: Stock -->
+    <section class="mw-step" id="mw-step-4" data-step="3">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="s6.step">Step 04</p>
+          <h2 class="mw-step__title" data-i18n="s6.title">Stock updates everywhere.</h2>
+          <p class="mw-step__body" data-i18n="s6.body">Every pick, move, and transfer reflects instantly across all warehouses, zones, and shelves. One app, one source of truth.</p>
+        </div>
+
+        <div class="mw-step__visual">
+          <!-- Phone: Stock screen -->
+          <div class="mw-phone" id="phone-stock">
+            <div class="mw-phone__island"></div>
+            <div class="mw-phone__screen">
+              <div class="mw-phone__status">
+                <span>9:41</span>
+                <div class="mw-phone__status-right">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                </div>
+              </div>
+              <div class="mw-app-content">
+                <div class="mw-stock-screen">
+                  <div class="mw-stock-header">
+                    <div class="mw-stock-header-title">STANJE</div>
+                    <div class="mw-stock-icons">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                    </div>
+                  </div>
+                  <div class="mw-stock-actions">
+                    <button class="mw-stock-btn-primary">+ DODAJ</button>
+                    <button class="mw-stock-btn-ghost">⇄ PRIJENOS</button>
+                  </div>
+                  <div class="mw-stock-list">
+                    <div class="mw-stock-row updated" id="stock-row-truss">
+                      <div class="mw-stock-row__name">INOX-TRUSS-14mm</div>
+                      <div class="mw-stock-row__meta">
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">SKU</span><span class="mw-stock-meta-val">TRS-14</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Količina</span><span class="mw-stock-meta-val qty" id="stock-qty-truss">48</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Lokacija</span><span class="mw-stock-meta-val">Zona A › B-3</span></div>
+                      </div>
+                    </div>
+                    <div class="mw-stock-row">
+                      <div class="mw-stock-row__name">BOLT-M8-ZINC</div>
+                      <div class="mw-stock-row__meta">
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">SKU</span><span class="mw-stock-meta-val">BLT-08Z</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Količina</span><span class="mw-stock-meta-val qty" id="stock-qty-bolt">234</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Lokacija</span><span class="mw-stock-meta-val">Zona B › C-1</span></div>
+                      </div>
+                    </div>
+                    <div class="mw-stock-row">
+                      <div class="mw-stock-row__name">PLATE-200x200</div>
+                      <div class="mw-stock-row__meta">
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">SKU</span><span class="mw-stock-meta-val">PLT-200</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Količina</span><span class="mw-stock-meta-val qty" id="stock-qty-plate">17</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Lokacija</span><span class="mw-stock-meta-val">Zona A › A-2</span></div>
+                      </div>
+                    </div>
+                    <div class="mw-stock-row">
+                      <div class="mw-stock-row__name">NUT-M6-SS</div>
+                      <div class="mw-stock-row__meta">
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">SKU</span><span class="mw-stock-meta-val">NUT-M6</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Količina</span><span class="mw-stock-meta-val">1024</span></div>
+                        <div class="mw-stock-meta-col"><span class="mw-stock-meta-label">Lokacija</span><span class="mw-stock-meta-val">Zona C › D-5</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mw-phone__nav">
+                <div class="mw-phone__nav-item active">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg>
+                  <span>Stanje</span>
+                </div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="mw-phone__home"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      </div><!-- /mw-story -->
+    </section><!-- /mod-picking -->
+
+    <!-- ─── Module 2: Receiving ─── -->
+    <section class="mw-module" id="mod-receiving" data-module="receiving">
+      <div class="mw-module__header">
+        <div class="mw-module__label">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 11l6 4 6-4M2 7l6 4 6-4M8 1L2 5l6 4 6-4-6-4z"/></svg>
+          <span data-i18n="mod.receiving">Receiving</span>
+        </div>
+        <p class="mw-module__lede" data-i18n="mod.receiving.lede">Supplier deliveries, purchase orders, returns. Scan what arrives, confirm what matches, flag what doesn't.</p>
+      </div>
+
+      <div class="mw-story" id="mw-story-recv">
+
+    <!-- Recv Step 1: Scan inbound stock -->
+    <section class="mw-step mw-recv-step" id="mw-recv-step-1" data-step="0">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="recv.s1.step">Step 01</p>
+          <h2 class="mw-step__title" data-i18n="recv.s1.title">Scan inbound stock.</h2>
+          <p class="mw-step__body" data-i18n="recv.s1.body">Scan the barcode on arriving goods. ARCA WMS identifies the item and tells the worker exactly where to put it away.</p>
+        </div>
+
+        <div class="mw-step__visual">
+          <div class="mw-phone" id="phone-recv-scan">
+            <div class="mw-phone__island"></div>
+            <div class="mw-phone__screen">
+              <div class="mw-phone__status">
+                <span>9:41</span>
+                <div class="mw-phone__status-right">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                </div>
+              </div>
+              <div class="mw-app-content">
+                <div class="mw-scanner-screen">
+                  <div class="mw-scanner-topbar">
+                    <span class="back-btn">←</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                    <span class="done-btn">GOTOVO</span>
+                  </div>
+                  <div class="mw-scanner-tabs">
+                    <div class="mw-scanner-tab active">✓ Kamera</div>
+                    <div class="mw-scanner-tab">⊞ Hardver</div>
+                    <div class="mw-scanner-tab">✎ Ručno</div>
+                  </div>
+                  <div class="mw-viewfinder">
+                    <div class="mw-vf-grid"></div>
+                    <div class="mw-vf-corner tl"></div>
+                    <div class="mw-vf-corner tr"></div>
+                    <div class="mw-vf-corner bl"></div>
+                    <div class="mw-vf-corner br"></div>
+                    <div class="mw-scan-line"></div>
+                    <div class="mw-barcode-box" id="recv-barcode-box">
+                      <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="60" height="30" fill="white"/>
+                        <rect x="2" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="5" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="7" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="11" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="13" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="16" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="18" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="22" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="25" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="27" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="30" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="34" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="36" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="39" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="41" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="45" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="48" y="3" width="1" height="24" fill="#111"/>
+                        <rect x="50" y="3" width="2" height="24" fill="#111"/>
+                        <rect x="53" y="3" width="3" height="24" fill="#111"/>
+                        <rect x="57" y="3" width="1" height="24" fill="#111"/>
+                        <text x="30" y="31" text-anchor="middle" font-size="4" fill="#333" font-family="monospace">INOX-TRUSS-14mm</text>
+                      </svg>
+                    </div>
+                  </div>
+                  <!-- Put-away guidance card -->
+                  <div class="mw-putaway-card" id="recv-putaway-card">
+                    <div class="mw-putaway-card__label" data-i18n="recv.s1.putaway.label">PUT AWAY</div>
+                    <div class="mw-putaway-card__location"><span data-i18n="recv.s1.putaway.goto">Go to</span> Zona C › Polica D-2</div>
+                    <div class="mw-putaway-card__item">
+                      <span><span data-i18n="recv.s1.putaway.item">Put away</span> INOX-TRUSS-14mm</span>
+                      <span>× 5</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom nav — receiving active -->
+              <div class="mw-phone__nav">
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+                <div class="mw-phone__nav-item active">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                  <span>Prijem</span>
+                </div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="mw-phone__home"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recv Step 2: Print barcode label -->
+    <section class="mw-step mw-recv-step" id="mw-recv-step-2" data-step="1">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="recv.s2.step">Step 02</p>
+          <h2 class="mw-step__title" data-i18n="recv.s2.title">No barcode? Print one.</h2>
+          <p class="mw-step__body" data-i18n="recv.s2.body">If the label is missing or damaged, tap print. ARCA WMS sends the barcode to a handheld printer. Stick it on and keep going.</p>
+        </div>
+
+        <div class="mw-step__visual">
+          <div class="mw-print-pair">
+            <!-- Phone: Print label screen -->
+            <div class="mw-phone" id="phone-recv-print">
+              <div class="mw-phone__island"></div>
+              <div class="mw-phone__screen">
+                <div class="mw-phone__status">
+                  <span>9:41</span>
+                  <div class="mw-phone__status-right">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5"/></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                  </div>
+                </div>
+                <div class="mw-app-content">
+                  <div class="mw-print-screen">
+                    <div class="mw-print-header" data-i18n="recv.s2.print.title">PRINT LABEL</div>
+                    <div class="mw-print-item-block">
+                      <div class="mw-print-item-name" data-i18n="recv.s2.print.item">INOX-TRUSS-14mm</div>
+                      <div class="mw-print-item-sku" data-i18n="recv.s2.print.sku">SKU: TRS-14</div>
+                      <div class="mw-print-barcode-preview">
+                        <svg viewBox="0 0 80 35" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="2" y="2" width="2" height="24" fill="#111"/>
+                          <rect x="5" y="2" width="1" height="24" fill="#111"/>
+                          <rect x="7" y="2" width="3" height="24" fill="#111"/>
+                          <rect x="11" y="2" width="1" height="24" fill="#111"/>
+                          <rect x="13" y="2" width="2" height="24" fill="#111"/>
+                          <rect x="16" y="2" width="1" height="24" fill="#111"/>
+                          <rect x="18" y="2" width="3" height="24" fill="#111"/>
+                          <rect x="22" y="2" width="2" height="24" fill="#111"/>
+                          <rect x="25" y="2" width="1" height="24" fill="#111"/>
+                          <rect x="27" y="2" width="2" height="24" fill="#111"/>
+                          <rect x="30" y="2" width="3" height="24" fill="#111"/>
+                          <rect x="34" y="2" width="1" height="24" fill="#111"/>
+                          <rect x="36" y="2" width="2" height="24" fill="#111"/>
+                          <rect x="39" y="2" width="1" height="24" fill="#111"/>
+                          <rect x="41" y="2" width="3" height="24" fill="#111"/>
+                          <rect x="45" y="2" width="2" height="24" fill="#111"/>
+                          <rect x="48" y="2" width="1" height="24" fill="#111"/>
+                          <text x="26" y="33" text-anchor="middle" font-size="4.5" fill="#333" font-family="monospace">TRS-14</text>
+                        </svg>
+                      </div>
+                    </div>
+                    <button class="mw-print-btn" id="recv-print-btn" data-i18n="recv.s2.print.btn">🖨 PRINT</button>
+                  </div>
+                </div>
+                <div class="mw-phone__nav">
+                  <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                  <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                  <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+                  <div class="mw-phone__nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Prijem</span>
+                  </div>
+                  <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                </div>
+                <div class="mw-phone__home"></div>
+              </div>
+            </div>
+
+            <!-- Wireless signal -->
+            <div class="mw-wireless-signal" id="recv-wireless">
+              <svg viewBox="0 0 32 32" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round">
+                <path d="M8 24l4-4"/>
+                <path d="M12 20a4 4 0 015.66 0" opacity="0.5"/>
+                <path d="M9 17a8 8 0 0111.31 0" opacity="0.3"/>
+                <path d="M6 14a12 12 0 0116.97 0" opacity="0.2"/>
+              </svg>
+            </div>
+
+            <!-- Handheld barcode printer -->
+            <div class="mw-printer-visual" id="recv-printer">
+              <!-- Label that slides out -->
+              <div class="mw-printer-label" id="recv-printer-label">
+                <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="60" height="30" fill="white"/>
+                  <rect x="4" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="7" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="9" y="3" width="3" height="18" fill="#111"/>
+                  <rect x="13" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="15" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="18" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="20" y="3" width="3" height="18" fill="#111"/>
+                  <rect x="24" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="27" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="29" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="32" y="3" width="3" height="18" fill="#111"/>
+                  <rect x="36" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="38" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="41" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="43" y="3" width="3" height="18" fill="#111"/>
+                  <rect x="47" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="50" y="3" width="1" height="18" fill="#111"/>
+                  <rect x="52" y="3" width="2" height="18" fill="#111"/>
+                  <rect x="55" y="3" width="2" height="18" fill="#111"/>
+                  <text x="30" y="28" text-anchor="middle" font-size="4" fill="#333" font-family="monospace">TRS-14</text>
+                </svg>
+              </div>
+              <!-- Printer body SVG -->
+              <svg class="mw-printer-body" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Printer body -->
+                <rect x="10" y="20" width="80" height="80" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1.5"/>
+                <!-- Label slot at top -->
+                <rect x="25" y="18" width="50" height="6" rx="2" fill="#0a0a0a" stroke="#444" stroke-width="0.5"/>
+                <!-- Screen/display area -->
+                <rect x="22" y="38" width="56" height="20" rx="3" fill="#0D4B5A" opacity="0.6"/>
+                <text x="50" y="52" text-anchor="middle" font-size="7" fill="#7DD8E8" font-family="monospace">TRS-14</text>
+                <!-- Button -->
+                <circle cx="50" cy="75" r="8" fill="#222" stroke="#444" stroke-width="1"/>
+                <circle cx="50" cy="75" r="3" fill="var(--accent)" opacity="0.7"/>
+                <!-- Status LED -->
+                <circle cx="72" cy="35" r="2.5" fill="#00FF88" opacity="0.8"/>
+                <!-- Bottom grip lines -->
+                <line x1="30" y1="95" x2="70" y2="95" stroke="#333" stroke-width="0.5"/>
+                <line x1="30" y1="98" x2="70" y2="98" stroke="#333" stroke-width="0.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recv Step 3: Scan shelf location -->
+    <section class="mw-step mw-recv-step" id="mw-recv-step-3" data-step="2">
+      <div class="mw-step__inner">
+        <div class="mw-step__copy">
+          <p class="mw-step__num" data-i18n="recv.s3.step">Step 03</p>
+          <h2 class="mw-step__title" data-i18n="recv.s3.title">Scan the shelf.</h2>
+          <p class="mw-step__body" data-i18n="recv.s3.body">Scan the location barcode on the shelf. ARCA WMS assigns that location to the stock. Done.</p>
+        </div>
+
+        <div class="mw-step__visual">
+          <div class="mw-phone" id="phone-recv-shelf">
+            <div class="mw-phone__island"></div>
+            <div class="mw-phone__screen">
+              <div class="mw-phone__status">
+                <span>9:41</span>
+                <div class="mw-phone__status-right">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                </div>
+              </div>
+              <div class="mw-app-content">
+                <div class="mw-scanner-screen">
+                  <div class="mw-scanner-topbar">
+                    <span class="back-btn">←</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                    <span class="done-btn">GOTOVO</span>
+                  </div>
+                  <div class="mw-scanner-tabs">
+                    <div class="mw-scanner-tab active">✓ Kamera</div>
+                    <div class="mw-scanner-tab">⊞ Hardver</div>
+                    <div class="mw-scanner-tab">✎ Ručno</div>
+                  </div>
+                  <div class="mw-viewfinder">
+                    <div class="mw-vf-grid"></div>
+                    <div class="mw-vf-corner tl"></div>
+                    <div class="mw-vf-corner tr"></div>
+                    <div class="mw-vf-corner bl"></div>
+                    <div class="mw-vf-corner br"></div>
+                    <div class="mw-scan-line"></div>
+                    <!-- Shelf with QR sticker -->
+                    <div class="mw-shelf-unit" id="recv-shelf-surface">
+                      <svg class="mw-shelf-unit__svg" viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Back panel -->
+                        <rect x="10" y="5" width="140" height="90" rx="2" fill="#2a2218" stroke="#3d3020" stroke-width="1"/>
+                        <!-- Shelf planks -->
+                        <rect x="8" y="28" width="144" height="6" rx="1" fill="#4a3c28" stroke="#5a4c38" stroke-width="0.5"/>
+                        <rect x="8" y="58" width="144" height="6" rx="1" fill="#4a3c28" stroke="#5a4c38" stroke-width="0.5"/>
+                        <rect x="8" y="88" width="144" height="6" rx="1" fill="#4a3c28" stroke="#5a4c38" stroke-width="0.5"/>
+                        <!-- Side supports -->
+                        <rect x="8" y="5" width="4" height="90" rx="1" fill="#5a4a35" stroke="#6a5a45" stroke-width="0.5"/>
+                        <rect x="148" y="5" width="4" height="90" rx="1" fill="#5a4a35" stroke="#6a5a45" stroke-width="0.5"/>
+                        <!-- Items on shelves (subtle boxes) -->
+                        <rect x="20" y="14" width="14" height="14" rx="1" fill="#3a3228" opacity="0.6"/>
+                        <rect x="38" y="10" width="12" height="18" rx="1" fill="#36302a" opacity="0.5"/>
+                        <rect x="110" y="16" width="16" height="12" rx="1" fill="#3a3228" opacity="0.5"/>
+                        <rect x="22" y="44" width="18" height="14" rx="1" fill="#36302a" opacity="0.5"/>
+                        <rect x="120" y="42" width="14" height="16" rx="1" fill="#3a3228" opacity="0.6"/>
+                      </svg>
+                      <!-- QR sticker pasted on shelf -->
+                      <div class="mw-shelf-qr" id="recv-shelf-qr">
+                        <div class="mw-shelf-qr__code">
+                          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="40" height="40" fill="white"/>
+                            <rect x="2" y="2" width="10" height="10" fill="#111"/><rect x="4" y="4" width="6" height="6" fill="white"/><rect x="5" y="5" width="4" height="4" fill="#111"/>
+                            <rect x="28" y="2" width="10" height="10" fill="#111"/><rect x="30" y="4" width="6" height="6" fill="white"/><rect x="31" y="5" width="4" height="4" fill="#111"/>
+                            <rect x="2" y="28" width="10" height="10" fill="#111"/><rect x="4" y="30" width="6" height="6" fill="white"/><rect x="5" y="31" width="4" height="4" fill="#111"/>
+                            <rect x="14" y="2" width="2" height="2" fill="#111"/><rect x="18" y="2" width="2" height="2" fill="#111"/><rect x="22" y="2" width="2" height="2" fill="#111"/>
+                            <rect x="14" y="6" width="2" height="2" fill="#111"/><rect x="20" y="6" width="2" height="2" fill="#111"/><rect x="24" y="6" width="2" height="2" fill="#111"/>
+                            <rect x="2" y="14" width="2" height="2" fill="#111"/><rect x="6" y="14" width="2" height="2" fill="#111"/><rect x="10" y="14" width="2" height="2" fill="#111"/>
+                            <rect x="16" y="14" width="2" height="2" fill="#111"/><rect x="20" y="16" width="2" height="2" fill="#111"/><rect x="24" y="14" width="2" height="2" fill="#111"/>
+                            <rect x="30" y="14" width="2" height="2" fill="#111"/><rect x="34" y="14" width="2" height="2" fill="#111"/>
+                            <rect x="14" y="20" width="2" height="2" fill="#111"/><rect x="18" y="22" width="2" height="2" fill="#111"/><rect x="24" y="20" width="2" height="2" fill="#111"/>
+                            <rect x="28" y="20" width="2" height="2" fill="#111"/><rect x="32" y="22" width="2" height="2" fill="#111"/><rect x="36" y="20" width="2" height="2" fill="#111"/>
+                            <rect x="14" y="28" width="2" height="2" fill="#111"/><rect x="18" y="30" width="2" height="2" fill="#111"/><rect x="22" y="28" width="2" height="2" fill="#111"/>
+                            <rect x="28" y="28" width="2" height="2" fill="#111"/><rect x="34" y="30" width="2" height="2" fill="#111"/><rect x="36" y="34" width="2" height="2" fill="#111"/>
+                          </svg>
+                        </div>
+                        <span class="mw-shelf-qr__text">Polica D-2</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Assignment confirmation card -->
+                  <div class="mw-assign-card" id="recv-assign-card">
+                    <div class="mw-assign-card__status" data-i18n="recv.s3.assign.status">✓ ASSIGNED</div>
+                    <div class="mw-assign-card__detail" data-i18n="recv.s3.assign.detail">INOX-TRUSS-14mm → Zone C › Shelf D-2</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bottom nav — receiving active -->
+              <div class="mw-phone__nav">
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+                <div class="mw-phone__nav-item active">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                  <span>Prijem</span>
+                </div>
+                <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              </div>
+              <div class="mw-phone__home"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      </div><!-- /mw-story-recv -->
+    </section><!-- /mod-receiving -->
+
+    <!-- ─── Module 3: Audits ─── -->
+    <section class="mw-module" id="mod-audits" data-module="audits">
+      <div class="mw-module__header">
+        <div class="mw-module__label">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="1" width="10" height="14" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+          <span data-i18n="mod.audits">Audits</span>
+        </div>
+        <p class="mw-module__lede" data-i18n="mod.audits.lede">Plan a count, walk it on the phone, reconcile differences in one tap.</p>
+      </div>
+
+      <div class="mw-story" id="mw-story-audit">
+
+        <!-- Audit Step 1: Walk the warehouse, scan items -->
+        <section class="mw-step mw-audit-step" id="mw-audit-step-1" data-step="0">
+          <div class="mw-step__inner">
+            <div class="mw-step__copy">
+              <p class="mw-step__num" data-i18n="audit.s1.step">Step 01</p>
+              <h2 class="mw-step__title" data-i18n="audit.s1.title">Walk the warehouse, scan what's there.</h2>
+              <p class="mw-step__body" data-i18n="audit.s1.body">Run a count without paper. Scan items shelf by shelf. ARCA WMS keeps the running tally and flags anything that doesn't match expected stock.</p>
+            </div>
+
+            <div class="mw-step__visual">
+              <div class="mw-phone" id="phone-audit-scan">
+                <div class="mw-phone__island"></div>
+                <div class="mw-phone__screen">
+                  <div class="mw-phone__status">
+                    <span>9:41</span>
+                    <div class="mw-phone__status-right">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                    </div>
+                  </div>
+                  <div class="mw-app-content">
+                    <div class="mw-scanner-screen">
+                      <div class="mw-scanner-topbar">
+                        <span class="back-btn">←</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                        <span class="done-btn">GOTOVO</span>
+                      </div>
+                      <div class="mw-scanner-tabs">
+                        <div class="mw-scanner-tab active">✓ Kamera</div>
+                        <div class="mw-scanner-tab">⊞ Hardver</div>
+                        <div class="mw-scanner-tab">✎ Ručno</div>
+                      </div>
+                      <div class="mw-viewfinder">
+                        <div class="mw-vf-grid"></div>
+                        <div class="mw-vf-corner tl"></div>
+                        <div class="mw-vf-corner tr"></div>
+                        <div class="mw-vf-corner bl"></div>
+                        <div class="mw-vf-corner br"></div>
+                        <div class="mw-scan-line"></div>
+                        <div class="mw-barcode-stack">
+                          <div class="mw-barcode-mini" id="audit-bc-1">
+                            <svg viewBox="0 0 60 22" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="60" height="22" fill="white"/>
+                              <rect x="2" y="2" width="2" height="14" fill="#111"/><rect x="5" y="2" width="1" height="14" fill="#111"/><rect x="7" y="2" width="3" height="14" fill="#111"/><rect x="11" y="2" width="1" height="14" fill="#111"/><rect x="13" y="2" width="2" height="14" fill="#111"/><rect x="16" y="2" width="1" height="14" fill="#111"/><rect x="18" y="2" width="3" height="14" fill="#111"/><rect x="22" y="2" width="2" height="14" fill="#111"/><rect x="25" y="2" width="1" height="14" fill="#111"/><rect x="27" y="2" width="2" height="14" fill="#111"/><rect x="30" y="2" width="3" height="14" fill="#111"/><rect x="34" y="2" width="1" height="14" fill="#111"/><rect x="36" y="2" width="2" height="14" fill="#111"/><rect x="39" y="2" width="1" height="14" fill="#111"/><rect x="41" y="2" width="3" height="14" fill="#111"/><rect x="45" y="2" width="2" height="14" fill="#111"/><rect x="48" y="2" width="1" height="14" fill="#111"/><rect x="50" y="2" width="2" height="14" fill="#111"/><rect x="53" y="2" width="3" height="14" fill="#111"/><rect x="57" y="2" width="1" height="14" fill="#111"/>
+                              <text x="30" y="21" text-anchor="middle" font-size="3.2" fill="#333" font-family="monospace">INOX-TRUSS-14mm</text>
+                            </svg>
+                            <div class="mw-barcode-mini__check">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+                            </div>
+                          </div>
+                          <div class="mw-barcode-mini" id="audit-bc-2">
+                            <svg viewBox="0 0 60 22" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="60" height="22" fill="white"/>
+                              <rect x="2" y="2" width="3" height="14" fill="#111"/><rect x="6" y="2" width="1" height="14" fill="#111"/><rect x="8" y="2" width="2" height="14" fill="#111"/><rect x="11" y="2" width="2" height="14" fill="#111"/><rect x="14" y="2" width="1" height="14" fill="#111"/><rect x="16" y="2" width="3" height="14" fill="#111"/><rect x="20" y="2" width="2" height="14" fill="#111"/><rect x="23" y="2" width="1" height="14" fill="#111"/><rect x="25" y="2" width="2" height="14" fill="#111"/><rect x="28" y="2" width="3" height="14" fill="#111"/><rect x="32" y="2" width="2" height="14" fill="#111"/><rect x="35" y="2" width="1" height="14" fill="#111"/><rect x="37" y="2" width="2" height="14" fill="#111"/><rect x="40" y="2" width="3" height="14" fill="#111"/><rect x="44" y="2" width="1" height="14" fill="#111"/><rect x="46" y="2" width="2" height="14" fill="#111"/><rect x="49" y="2" width="3" height="14" fill="#111"/><rect x="53" y="2" width="1" height="14" fill="#111"/><rect x="55" y="2" width="2" height="14" fill="#111"/>
+                              <text x="30" y="21" text-anchor="middle" font-size="3.2" fill="#333" font-family="monospace">BOLT-M8-50mm</text>
+                            </svg>
+                            <div class="mw-barcode-mini__check">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+                            </div>
+                          </div>
+                          <div class="mw-barcode-mini" id="audit-bc-3">
+                            <svg viewBox="0 0 60 22" xmlns="http://www.w3.org/2000/svg">
+                              <rect width="60" height="22" fill="white"/>
+                              <rect x="2" y="2" width="2" height="14" fill="#111"/><rect x="5" y="2" width="2" height="14" fill="#111"/><rect x="8" y="2" width="1" height="14" fill="#111"/><rect x="10" y="2" width="3" height="14" fill="#111"/><rect x="14" y="2" width="2" height="14" fill="#111"/><rect x="17" y="2" width="1" height="14" fill="#111"/><rect x="19" y="2" width="2" height="14" fill="#111"/><rect x="22" y="2" width="3" height="14" fill="#111"/><rect x="26" y="2" width="2" height="14" fill="#111"/><rect x="29" y="2" width="1" height="14" fill="#111"/><rect x="31" y="2" width="3" height="14" fill="#111"/><rect x="35" y="2" width="2" height="14" fill="#111"/><rect x="38" y="2" width="1" height="14" fill="#111"/><rect x="40" y="2" width="2" height="14" fill="#111"/><rect x="43" y="2" width="3" height="14" fill="#111"/><rect x="47" y="2" width="1" height="14" fill="#111"/><rect x="49" y="2" width="2" height="14" fill="#111"/><rect x="52" y="2" width="3" height="14" fill="#111"/><rect x="56" y="2" width="2" height="14" fill="#111"/>
+                              <text x="30" y="21" text-anchor="middle" font-size="3.2" fill="#333" font-family="monospace">WASHER-12mm</text>
+                            </svg>
+                            <div class="mw-barcode-mini__check">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="#00FF88" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Bottom nav — audits active (clipboard icon, 3rd item) -->
+                  <div class="mw-phone__nav">
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                    <div class="mw-phone__nav-item active">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M9 6h6M9 10h6M9 14h4"/></svg>
+                      <span>Inventura</span>
+                    </div>
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                  </div>
+                  <div class="mw-phone__home"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Audit Step 2: Audit results / variances -->
+        <section class="mw-step mw-audit-step" id="mw-audit-step-2" data-step="1">
+          <div class="mw-step__inner">
+            <div class="mw-step__copy">
+              <p class="mw-step__num" data-i18n="audit.s2.step">Step 02</p>
+              <h2 class="mw-step__title" data-i18n="audit.s2.title">See the differences in one glance.</h2>
+              <p class="mw-step__body" data-i18n="audit.s2.body">When the count is done, ARCA WMS reconciles against expected. Shortages, overages, and matches are all on one screen.</p>
+            </div>
+
+            <div class="mw-step__visual">
+              <div class="mw-phone" id="phone-audit-results">
+                <div class="mw-phone__island"></div>
+                <div class="mw-phone__screen">
+                  <div class="mw-phone__status">
+                    <span>9:41</span>
+                    <div class="mw-phone__status-right">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.5A13 13 0 0112 4a13 13 0 0110.5 4.5M5 12a10 10 0 017-3 10 10 0 017 3M8.5 15.5a7 7 0 013.5-1.5 7 7 0 013.5 1.5"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="15" height="11" rx="2"/><path d="M17 11h2a2 2 0 012 2v0a2 2 0 01-2 2h-2"/></svg>
+                    </div>
+                  </div>
+                  <div class="mw-app-content">
+                    <div class="mw-audit-summary">
+                      <div class="mw-audit-summary__eyebrow" data-i18n="audit.s2.results">INVENTURA — REZULTATI</div>
+                      <div class="mw-audit-summary__warehouse">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span data-i18n="audit.s2.warehouse">Warehouse Sisak</span>
+                      </div>
+
+                      <div class="mw-audit-progress" id="audit-progress-ring">
+                        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="60" cy="60" r="48" fill="none" stroke="var(--border)" stroke-width="8"/>
+                          <circle class="mw-audit-progress__fill" cx="60" cy="60" r="48" fill="none" stroke="#A78BFA" stroke-width="8" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="301.59" stroke-dashoffset="301.59"/>
+                        </svg>
+                        <div class="mw-audit-progress__label">
+                          <span class="mw-audit-progress__pct" id="audit-pct">0%</span>
+                        </div>
+                      </div>
+
+                      <div class="mw-audit-counts">
+                        <div class="mw-audit-counts__nums">
+                          <span class="mw-audit-counts__counted">1240</span>
+                          <span class="mw-audit-counts__sep">/</span>
+                          <span class="mw-audit-counts__expected">1476</span>
+                        </div>
+                        <div class="mw-audit-counts__label" data-i18n="audit.s2.counted.label">counted / expected</div>
+                      </div>
+
+                      <div class="mw-audit-variances">
+                        <div class="mw-audit-row" data-variance="short">
+                          <div class="mw-audit-row__sku">INOX-TRUSS-14mm</div>
+                          <div class="mw-audit-row__count"><span class="mw-audit-row__got">2</span><span class="mw-audit-row__sep">/</span><span class="mw-audit-row__want">3</span></div>
+                        </div>
+                        <div class="mw-audit-row" data-variance="extra">
+                          <div class="mw-audit-row__sku">BOLT-M8-50mm</div>
+                          <div class="mw-audit-row__count"><span class="mw-audit-row__got">4</span><span class="mw-audit-row__sep">/</span><span class="mw-audit-row__want">3</span></div>
+                          <div class="mw-audit-row__badge" data-i18n="audit.s2.badge.extra">+1 EXTRA</div>
+                        </div>
+                        <div class="mw-audit-row" data-variance="short">
+                          <div class="mw-audit-row__sku">WASHER-12mm</div>
+                          <div class="mw-audit-row__count"><span class="mw-audit-row__got">5</span><span class="mw-audit-row__sep">/</span><span class="mw-audit-row__want">6</span></div>
+                        </div>
+                        <div class="mw-audit-row" data-variance="short">
+                          <div class="mw-audit-row__sku">HEX-NUT-M10</div>
+                          <div class="mw-audit-row__count"><span class="mw-audit-row__got">18</span><span class="mw-audit-row__sep">/</span><span class="mw-audit-row__want">20</span></div>
+                        </div>
+                        <div class="mw-audit-row" data-variance="extra">
+                          <div class="mw-audit-row__sku">PLATE-ZINC-A4</div>
+                          <div class="mw-audit-row__count"><span class="mw-audit-row__got">7</span><span class="mw-audit-row__sep">/</span><span class="mw-audit-row__want">5</span></div>
+                          <div class="mw-audit-row__badge" data-i18n="audit.s2.badge.extra2">+2 EXTRA</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Bottom nav — audits active -->
+                  <div class="mw-phone__nav">
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="9" height="9" rx="1"/><rect x="13" y="3" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg></div>
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+                    <div class="mw-phone__nav-item active">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M9 6h6M9 10h6M9 14h4"/></svg>
+                      <span>Inventura</span>
+                    </div>
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                    <div class="mw-phone__nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                  </div>
+                  <div class="mw-phone__home"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /mw-story-audit -->
+    </section>
+
+    <!-- ─── Module 4: Automations ─── -->
+    <section class="mw-module" id="mod-automations" data-module="automations">
+      <div class="mw-module__header">
+        <div class="mw-module__label">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 1 5 9 8 9 7 15 11 7 8 7 9 1"/></svg>
+          <span data-i18n="mod.automations">Automations</span>
+        </div>
+        <p class="mw-module__lede" data-i18n="mod.automations.lede">When this happens, do that. Print labels, notify a Slack channel, route an order. No code needed.</p>
+      </div>
+      <div class="mw-story" id="mw-story-auto">
+
+        <!-- Auto Step 1: Configure warehouse hierarchy -->
+        <section class="mw-step mw-auto-step" id="mw-auto-step-1" data-step="0">
+          <div class="mw-step__inner">
+            <div class="mw-step__copy">
+              <p class="mw-step__num" data-i18n="auto.s1.step">Step 01</p>
+              <h2 class="mw-step__title" data-i18n="auto.s1.title">Your warehouse, your hierarchy.</h2>
+              <p class="mw-step__body" data-i18n="auto.s1.body">Define your warehouse structure once: Warehouse, Zone, Shelf. Add custom fields per level to track exactly what your operation needs.</p>
+            </div>
+            <div class="mw-step__visual">
+              <div class="mw-desktop-wrap">
+                <div class="mw-desktop">
+                  <div class="mw-desktop__chrome">
+                    <div class="mw-desktop__dots">
+                      <span class="mw-desktop__dot" style="background:#FF5F57"></span>
+                      <span class="mw-desktop__dot" style="background:#FFBD2E"></span>
+                      <span class="mw-desktop__dot" style="background:#28C840"></span>
+                    </div>
+                    <div class="mw-desktop__url">arca.local/admin/lokacije</div>
+                  </div>
+                  <div class="mw-desktop__screen">
+                    <div class="mw-loc-screen">
+                      <div class="mw-loc-col" id="loc-col-1">
+                        <div class="mw-loc-col__header">Skladišta</div>
+                        <div class="mw-loc-item mw-loc-item--active" id="loc-sisak">
+                          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="4" width="10" height="7" rx="1"/><path d="M3 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/></svg>
+                          Skladište Sisak
+                        </div>
+                        <div class="mw-loc-item" id="loc-zagreb">
+                          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="4" width="10" height="7" rx="1"/><path d="M3 4V3a1 1 0 011-1h4a1 1 0 011 1v1"/></svg>
+                          Skladište Zagreb
+                        </div>
+                      </div>
+                      <div class="mw-loc-col" id="loc-col-2">
+                        <div class="mw-loc-col__header">Zone</div>
+                        <div class="mw-loc-item mw-loc-item--active" id="loc-zona-a">Zona A</div>
+                        <div class="mw-loc-item" id="loc-zona-b">Zona B</div>
+                        <div class="mw-loc-item" id="loc-zona-c">Zona C</div>
+                      </div>
+                      <div class="mw-loc-col" id="loc-col-3">
+                        <div class="mw-loc-col__header">Police</div>
+                        <div class="mw-loc-item" id="loc-p-a1">Polica A-1</div>
+                        <div class="mw-loc-item" id="loc-p-a2">Polica A-2</div>
+                        <div class="mw-loc-item" id="loc-p-a3">Polica A-3</div>
+                        <div class="mw-loc-item" id="loc-p-a4">Polica A-4</div>
+                        <div class="mw-loc-item" id="loc-p-a5">Polica A-5</div>
+                      </div>
+                      <div class="mw-loc-detail" id="loc-detail">
+                        <div class="mw-loc-detail__crumb">Skladište Sisak › Zona A</div>
+                        <div class="mw-loc-detail__name">Zona A</div>
+                        <div class="mw-loc-detail__fields-label">Prilagođena polja</div>
+                        <div class="mw-loc-chips">
+                          <span class="mw-loc-chip">+ Tekst</span>
+                          <span class="mw-loc-chip">+ Broj</span>
+                          <span class="mw-loc-chip">+ Datum</span>
+                          <span class="mw-loc-chip">+ Boolean</span>
+                        </div>
+                        <div class="mw-loc-field-row">
+                          <span class="mw-loc-field-key">Hladni lanac</span>
+                          <span class="mw-loc-field-type">Boolean</span>
+                          <span class="mw-loc-field-val">Da</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Auto Step 2: Configure catalog -->
+        <section class="mw-step mw-auto-step" id="mw-auto-step-2" data-step="1">
+          <div class="mw-step__inner">
+            <div class="mw-step__copy">
+              <p class="mw-step__num" data-i18n="auto.s2.step">Step 02</p>
+              <h2 class="mw-step__title" data-i18n="auto.s2.title">Configure items, locations, orders, including fields we haven't thought of.</h2>
+              <p class="mw-step__body" data-i18n="auto.s2.body">Enable lot or serial number tracking. Add custom fields tailored to your business.</p>
+            </div>
+            <div class="mw-step__visual">
+              <div class="mw-desktop-wrap">
+                <div class="mw-desktop">
+                  <div class="mw-desktop__chrome">
+                    <div class="mw-desktop__dots">
+                      <span class="mw-desktop__dot" style="background:#FF5F57"></span>
+                      <span class="mw-desktop__dot" style="background:#FFBD2E"></span>
+                      <span class="mw-desktop__dot" style="background:#28C840"></span>
+                    </div>
+                    <div class="mw-desktop__url">arca.local/admin/artikli</div>
+                  </div>
+                  <div class="mw-desktop__screen">
+                    <div class="mw-cat-screen">
+                      <div class="mw-cat-header">Konfiguracija artikala</div>
+                      <div class="mw-cat-section">
+                        <div class="mw-cat-section-title">Zadana polja</div>
+                        <div class="mw-cat-toggle-row">
+                          <div class="mw-cat-toggle-info">
+                            <span class="mw-cat-toggle-label">Decimalne količine</span>
+                            <span class="mw-cat-toggle-desc">Dozvoli decimalne vrijednosti zalihe</span>
+                          </div>
+                          <div class="mw-cat-toggle mw-cat-toggle--on"></div>
+                        </div>
+                        <div class="mw-cat-toggle-row">
+                          <div class="mw-cat-toggle-info">
+                            <span class="mw-cat-toggle-label">Restock razina</span>
+                            <span class="mw-cat-toggle-desc">Prati razinu za dopunu</span>
+                          </div>
+                          <div class="mw-cat-toggle mw-cat-toggle--on"></div>
+                        </div>
+                        <div class="mw-cat-toggle-row">
+                          <div class="mw-cat-toggle-info">
+                            <span class="mw-cat-toggle-label">Praćenje lota</span>
+                            <span class="mw-cat-toggle-desc">Prati zalihu po seriji / lotu</span>
+                          </div>
+                          <div class="mw-cat-toggle" id="cat-toggle-lot"></div>
+                        </div>
+                        <div class="mw-cat-toggle-row">
+                          <div class="mw-cat-toggle-info">
+                            <span class="mw-cat-toggle-label">Serijski broj</span>
+                            <span class="mw-cat-toggle-desc">Prati svaki komad zasebno</span>
+                          </div>
+                          <div class="mw-cat-toggle" id="cat-toggle-serial"></div>
+                        </div>
+                      </div>
+                      <div class="mw-cat-section">
+                        <div class="mw-cat-section-title">Prilagođena polja</div>
+                        <div class="mw-cat-chips">
+                          <span class="mw-cat-chip">+ Tekst</span>
+                          <span class="mw-cat-chip">+ Broj</span>
+                          <span class="mw-cat-chip">+ Decimala</span>
+                          <span class="mw-cat-chip mw-cat-chip--flash" id="cat-chip-date">+ Datum</span>
+                          <span class="mw-cat-chip">+ Boolean</span>
+                          <span class="mw-cat-chip">+ URL</span>
+                        </div>
+                        <div class="mw-cat-field-row">
+                          <span class="mw-cat-field-key">Proizvođač</span>
+                          <span class="mw-cat-field-type">Tekst</span>
+                        </div>
+                        <div class="mw-cat-field-row">
+                          <span class="mw-cat-field-key">Hazmat klasa</span>
+                          <span class="mw-cat-field-type">Jednos. odabir</span>
+                        </div>
+                        <div class="mw-cat-field-row" id="cat-field-new">
+                          <span class="mw-cat-field-key">Datum isteka</span>
+                          <span class="mw-cat-field-type">Datum</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Auto Step 3: Automations editor -->
+        <section class="mw-step mw-auto-step" id="mw-auto-step-3" data-step="2">
+          <div class="mw-step__inner">
+            <div class="mw-step__copy">
+              <p class="mw-step__num" data-i18n="auto.s3.step">Step 03</p>
+              <h2 class="mw-step__title" data-i18n="auto.s3.title">When this happens, run that.</h2>
+              <p class="mw-step__body" data-i18n="auto.s3.body">Write automations that connect any warehouse event to your services.</p>
+            </div>
+            <div class="mw-step__visual">
+              <div class="mw-desktop-wrap">
+                <div class="mw-desktop">
+                  <div class="mw-desktop__chrome">
+                    <div class="mw-desktop__dots">
+                      <span class="mw-desktop__dot" style="background:#FF5F57"></span>
+                      <span class="mw-desktop__dot" style="background:#FFBD2E"></span>
+                      <span class="mw-desktop__dot" style="background:#28C840"></span>
+                    </div>
+                    <div class="mw-desktop__url">arca.local/admin/automatizacije</div>
+                  </div>
+                  <div class="mw-desktop__screen">
+                    <div class="mw-auto-screen">
+                      <div class="mw-auto-trigger-pane" id="auto-trigger-pane">
+                        <div class="mw-auto-trigger-pane__label">OKIDAČ</div>
+                        <div class="mw-auto-trigger-card" id="auto-trigger-card">
+                          <div class="mw-auto-trigger-event">Stock.Adjusted</div>
+                          <div class="mw-auto-trigger-name">Sinkronizacija s ERP-om</div>
+                          <div class="mw-auto-trigger-status">
+                            <span class="mw-auto-status-dot"></span>Aktivno
+                          </div>
+                        </div>
+                        <div class="mw-auto-trigger-pane__hint">
+                          <div class="mw-auto-other-auto">Stock.Created</div>
+                          <div class="mw-auto-other-auto">Order.Completed</div>
+                          <div class="mw-auto-other-auto">Audit.Finished</div>
+                        </div>
+                      </div>
+                      <div class="mw-code-editor" id="auto-code-editor">
+                        <div class="mw-code-header">
+                          <span class="mw-code-lang">Dart</span>
+                          <span class="mw-code-run" id="auto-run-btn">▶ Pokreni</span>
+                        </div>
+                        <div class="mw-code-body" id="auto-code-body">
+                          <div class="mw-code-line" id="cline-1"><span class="mw-ln">1</span><span class="mw-tok-comment">// Triggered on Stock.Adjusted</span></div>
+                          <div class="mw-code-line" id="cline-2"><span class="mw-ln">2</span><span class="mw-tok-keyword">final</span> <span class="mw-tok-fn">sku</span> = event[<span class="mw-tok-string">'sku'</span>] <span class="mw-tok-keyword">as</span> <span class="mw-tok-fn">String</span>;</div>
+                          <div class="mw-code-line" id="cline-3"><span class="mw-ln">3</span><span class="mw-tok-keyword">final</span> <span class="mw-tok-fn">delta</span> = event[<span class="mw-tok-string">'delta'</span>] <span class="mw-tok-keyword">as</span> <span class="mw-tok-fn">int</span>;</div>
+                          <div class="mw-code-line" id="cline-4"><span class="mw-ln">4</span></div>
+                          <div class="mw-code-line" id="cline-5"><span class="mw-ln">5</span><span class="mw-tok-keyword">final</span> res = <span class="mw-tok-keyword">await</span> <span class="mw-tok-fn">http</span>.<span class="mw-tok-fn">post</span>(</div>
+                          <div class="mw-code-line" id="cline-6"><span class="mw-ln">6</span>&nbsp;&nbsp;<span class="mw-tok-fn">Uri</span>.<span class="mw-tok-fn">parse</span>(env[<span class="mw-tok-string">'ERP_URL'</span>]! + <span class="mw-tok-string">'/stock'</span>),</div>
+                          <div class="mw-code-line" id="cline-7"><span class="mw-ln">7</span>&nbsp;&nbsp;<span class="mw-tok-dim">headers</span>: {<span class="mw-tok-string">'Authorization'</span>: <span class="mw-tok-string">'Bearer ${env["ERP_TOKEN"]}'</span>},</div>
+                          <div class="mw-code-line" id="cline-8"><span class="mw-ln">8</span>&nbsp;&nbsp;<span class="mw-tok-dim">body</span>: <span class="mw-tok-fn">jsonEncode</span>({<span class="mw-tok-string">'sku'</span>: sku, <span class="mw-tok-string">'delta'</span>: delta}),</div>
+                          <div class="mw-code-line" id="cline-9"><span class="mw-ln">9</span>);</div>
+                          <div class="mw-code-line" id="cline-10"><span class="mw-ln">10</span><span class="mw-tok-keyword">return</span> {<span class="mw-tok-string">'ok'</span>: res.<span class="mw-tok-dim">statusCode</span> == <span class="mw-tok-fn">200</span>};</div>
+                        </div>
+                        <div class="mw-code-toast" id="auto-code-toast">✓ 200 OK — synced to ERP (124ms)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /mw-story-auto -->
+    </section>
+
+  </div><!-- /mw-modules -->
+
+  <!-- ── CTA ── -->
+  <section class="mw-cta">
+    <div class="mw-cta__bg"></div>
+    <h2 data-i18n="cta.title">Make ARCA yours.</h2>
+    <p data-i18n="cta.sub">Request a demo and we'll walk you through the setup.</p>
+    <a href="mailto:contact@joe-it-solutions.com?subject=ARCA WMS demo" class="mw-btn-primary" data-i18n="cta.btn">Request a demo</a>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="mw-footer">
+      <span data-i18n="footer.rights">© 2026 ARCA WMS</span>
+      <span>
+        <span data-i18n="footer.by">By</span>
+        <a href="https://joe-it-solutions.com" target="_blank" rel="noopener"> JOE IT Solutions</a>
+      </span>
+      <div class="mw-lang">
+        <button id="btn-en-footer" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-hr-footer" onclick="setLang('hr')">HR</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/arca-wms/i18n.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="/arca-wms/main.js"></script>
+</body>
+</html>
