@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "joe-it-solutions"
+  },
+  "targets": {
+    "joe-it-solutions": {
+      "hosting": {
+        "joe-it": [
+          "joe-it-solutions"
+        ],
+        "arca-wms": [
+          "arca-wms-joe-it"
+        ]
+      }
+    }
   }
 }
