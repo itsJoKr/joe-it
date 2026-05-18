@@ -11,13 +11,13 @@
       "redirects": [
         {
           "source": "/arca-wms",
-          "destination": "https://arca-wms.com",
-          "type": 301
+          "destination": "https://arca-wms-joe-it.web.app",
+          "type": 302
         },
         {
           "source": "/arca-wms/**",
-          "destination": "https://arca-wms.com",
-          "type": 301
+          "destination": "https://arca-wms-joe-it.web.app",
+          "type": 302
         }
       ]
     },
