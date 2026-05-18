@@ -7,6 +7,18 @@
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
+      ],
+      "redirects": [
+        {
+          "source": "/arca-wms",
+          "destination": "https://arca-wms.com",
+          "type": 301
+        },
+        {
+          "source": "/arca-wms/**",
+          "destination": "https://arca-wms.com",
+          "type": 301
+        }
       ]
     },
     {
