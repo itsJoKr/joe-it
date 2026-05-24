@@ -20,7 +20,7 @@
   --font: 'Space Grotesk', system-ui, sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body.mw-page {
   font-family: var(--font);
@@ -2124,8 +2124,8 @@ body.mw-page {
     padding: 2.5rem 1.5rem;
     text-align: center;
   }
-  .mw-step__copy { order: 1; }
-  .mw-step__visual { order: 2; }
+  .mw-step__copy { order: 1; min-width: 0; }
+  .mw-step__visual { order: 2; min-width: 0; }
   .mw-step__body { max-width: none; }
   .mw-pitch__bullets { grid-template-columns: 1fr; gap: 1.5rem; }
   .mw-more__grid { grid-template-columns: repeat(2, 1fr); }

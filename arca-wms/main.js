@@ -32,7 +32,7 @@ function initLang() {
   const saved = localStorage.getItem('mw-lang');
   if (saved) { applyLang(saved); return; }
   const browser = (navigator.language || 'en').toLowerCase();
-  applyLang(browser.startsWith('hr') ? 'hr' : 'en');
+  applyLang(browser.startsWith('en') ? 'en' : 'hr');
 }
 
 window.setLang = setLang;
