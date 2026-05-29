@@ -169,7 +169,7 @@
           <h1>Learn Croatian Now</h1>
           <p>A mobile app for expats and workers living in Croatia — including <strong>A1.1 test preparation</strong> (priprema za A1.1 ispit). Learn Croatian through your own language — Nepali, Tagalog, Hindi, Punjabi, Malayalam, or English. Covers everything you need for the A1.1 exam: talking to your boss, navigating healthcare, housing, daily errands, and MUP paperwork.</p>
           <div class="store-buttons">
-            <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.joeitsolutions.learncro" target="_blank" rel="noopener noreferrer">
+            <a class="store-btn" id="play-store-link" href="https://play.google.com/store/apps/details?id=com.joeitsolutions.learncro" target="_blank" rel="noopener noreferrer">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M3.18 23.76c.37.2.79.21 1.17.04l12.55-7.25-2.71-2.71-11.01 9.92zm-1.18-20.2v16.88c0 .55.3 1.03.78 1.28l12.24-12.24-12.22-12.2c-.48.25-.8.73-.8 1.28zm20.17 7.42l-2.65-1.53-3.02 3.02 3.02 3.02 2.67-1.54c.76-.44.76-1.53-.02-1.97zM4.35.2L16.9 7.45 14.19 10.16 3.18.24C3.56.07 3.98.08 4.35.2z"/>
               </svg>
@@ -273,6 +273,16 @@
   </footer>
 
   <script src="/main.js"></script>
+  <script>
+    (function () {
+      var ref = new URLSearchParams(window.location.search).get('ref');
+      if (!ref || !/^[a-z0-9-]{1,40}$/.test(ref)) return;
+      var link = document.getElementById('play-store-link');
+      if (!link) return;
+      var referrer = 'utm_source=' + ref + '&utm_medium=partner&utm_campaign=referral';
+      link.href = link.href + '&referrer=' + encodeURIComponent(referrer);
+    })();
+  </script>
 </body>
 
 </html>
