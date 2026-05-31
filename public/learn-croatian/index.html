@@ -66,18 +66,18 @@
 
     .lang-showcase {
       background: #fff;
-      border-top: 1px solid #f0f0f0;
       padding: 5rem 1.5rem 6rem;
     }
 
     .lang-showcase__label {
       text-align: center;
-      color: #9ca3af;
-      font-size: 0.68rem;
+      color: #6b7280;
+      font-size: 1rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-family: 'Figtree', sans-serif;
-      margin-bottom: 3rem;
+      font-weight: 600;
+      margin-bottom: 3.5rem;
     }
 
     .lang-showcase__grid {
@@ -85,8 +85,8 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 2.5rem 4rem;
-      max-width: 880px;
+      gap: 3.5rem 5.5rem;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
@@ -94,14 +94,14 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
       animation: lwFloat var(--d, 7s) var(--delay, 0s) ease-in-out infinite alternate;
       will-change: transform;
     }
 
     .lw__primary {
       font-family: 'Figtree', sans-serif;
-      font-size: var(--fs, 1.1rem);
+      font-size: calc(var(--fs, 1.1rem) * 1.45);
       font-weight: 700;
       color: var(--col, #2563eb);
       letter-spacing: -0.02em;
@@ -109,7 +109,7 @@
     }
 
     .lw__secondary {
-      font-size: 0.65rem;
+      font-size: 0.9rem;
       font-family: 'Figtree', sans-serif;
       color: #9ca3af;
       font-weight: 400;
@@ -121,13 +121,34 @@
       100% { transform: translateY(var(--dy, -10px)) rotate(var(--r1, 1deg)); }
     }
 
+    .lang-showcase__signoff {
+      margin-top: 4.5rem;
+      text-align: center;
+      font-family: 'Figtree', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      background: linear-gradient(90deg, #dc2626 0%, #2563eb 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
     @media (max-width: 640px) {
       .lang-showcase {
         padding: 4rem 1.5rem 5rem;
       }
 
       .lang-showcase__grid {
-        gap: 2rem 3rem;
+        gap: 2.5rem 3.5rem;
+      }
+
+      .lw__primary {
+        font-size: calc(var(--fs, 1.1rem) * 1.25);
+      }
+
+      .lang-showcase__signoff {
+        margin-top: 3.5rem;
       }
     }
   </style>
@@ -243,6 +264,7 @@
       </div>
 
     </div>
+    <p class="lang-showcase__signoff" lang="hr">Nauči hrvatski!</p>
   </section>
 
   <footer class="site-footer">
