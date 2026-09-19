@@ -255,14 +255,14 @@ p { color: var(--text-muted); }
 /* ---------- Services ---------- */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
 }
 .service-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.75rem;
+  padding: 1.5rem;
   transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 .service-card:hover {
@@ -425,32 +425,60 @@ p { color: var(--text-muted); }
   margin-inline: auto;
 }
 
-/* ---------- Past projects ---------- */
-.past-grid {
+/* ---------- Work strip ---------- */
+.section--strip {
+  background: var(--bg-soft);
+  padding: 0;
+}
+/* The mask's fade does the visual spacing here, so the head sits close to the band. */
+.section--strip .section-head { margin-bottom: 0.5rem; }
+.section--strip .eyebrow { margin-bottom: 0.5rem; }
+
+.work-strip {
+  --strip-gap: 0.75rem;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
+  column-gap: var(--strip-gap);
+  /* Tracks must size to their own content, not be stretched to the tallest -
+     translateY(-50%) is relative to the track's own height. */
+  align-items: start;
+  height: clamp(320px, 36vw, 480px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 80%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 80%, transparent 100%);
 }
-.past-col {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+
+.strip-track {
+  /* flow-root keeps the last tile's margin-bottom inside the track's height,
+     so each half measures identically. */
+  display: flow-root;
+  animation: strip-drift 46s linear infinite;
+  will-change: transform;
 }
-.past-tile {
+
+/* Alternating direction + spread durations so the columns never sync up. */
+.strip-track:nth-child(1) { animation-duration: 43s; }
+.strip-track:nth-child(2) { animation-duration: 57s; animation-direction: reverse; }
+.strip-track:nth-child(3) { animation-duration: 49s; }
+.strip-track:nth-child(4) { animation-duration: 63s; animation-direction: reverse; }
+.strip-track:nth-child(5) { animation-duration: 51s; }
+
+.work-strip:hover .strip-track { animation-play-state: paused; }
+
+/* Spacing is margin-bottom on EVERY tile, not gap on the track: each half then
+   measures exactly the same, so translateY(-50%) wraps without a jump. */
+.strip-tile {
+  margin-bottom: var(--strip-gap);
   border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   background: #fff;
-  transition: transform 200ms ease, box-shadow 200ms ease;
 }
-.past-tile img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-.past-tile:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow);
+.strip-tile img { width: 100%; height: auto; display: block; }
+
+@keyframes strip-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
 }
 
 /* ---------- Contact ---------- */
@@ -522,7 +550,6 @@ p { color: var(--text-muted); }
   .services-grid { grid-template-columns: 1fr 1fr; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
   .personal-grid { grid-template-columns: repeat(2, 1fr); }
-  .past-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 720px) {
@@ -550,17 +577,13 @@ p { color: var(--text-muted); }
   .site-header { background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); }
 
   .services-grid { grid-template-columns: 1fr; }
-  .past-grid { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
-  .past-col { gap: 0.75rem; }
+
+  .work-strip { --strip-gap: 0.45rem; height: clamp(250px, 66vw, 330px); }
 
   .collage { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; padding: 0.5rem; }
   .collage img { aspect-ratio: 9 / 18; }
 
   .site-footer .row { justify-content: center; text-align: center; }
-}
-
-@media (max-width: 480px) {
-  .past-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ---------- Reduced motion ---------- */
@@ -571,4 +594,5 @@ p { color: var(--text-muted); }
     transition-duration: 0.01ms !important;
   }
   .collage img { transform: none !important; }
+  .strip-track { animation: none !important; transform: none !important; }
 }
